@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <EditTextPreference
+        android:defaultValue="100"
+        android:dialogTitle="@string/pref_query_limit"
+        android:inputType="number"
+        android:key="grid_columns"
+        android:summary="@string/pref_query_limit_summ"
+        android:title="@string/pref_query_limit"
+        android:layout="@layout/font_layout"/>
+
+    <Preference
+        android:key="comicList"
+        android:title="@string/saved_list"
+        android:summary="@string/saved_list_summary"
+        android:layout="@layout/font_layout"
+        app:allowDividerAbove="false"
+        app:allowDividerBelow="false"/>
+
+    <Preference
+        android:key="cache"
+        android:title="@string/cache"
+        android:summary="@string/cache_summary"
+        android:layout="@layout/font_layout"
+        app:allowDividerAbove="false"
+        app:allowDividerBelow="false"/>
+
+    <Preference
+        android:key="feedback"
+        android:title="@string/feedback"
+        android:summary="@string/feedback_summary"
+        android:layout="@layout/font_layout"
+        app:allowDividerAbove="false"
+        app:allowDividerBelow="false"/>
+</PreferenceScreen>

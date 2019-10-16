@@ -1,5 +1,6 @@
 package com.marvel.ledannyyang.activity
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -73,7 +74,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         R.id.settings -> {
-            toast("Settings...")
+            startActivity(Intent(this, SettingActivity::class.java))
             true
         }
 
