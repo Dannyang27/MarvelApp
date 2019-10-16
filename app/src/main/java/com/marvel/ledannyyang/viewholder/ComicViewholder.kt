@@ -32,12 +32,12 @@ class ComicViewholder(view: View): RecyclerView.ViewHolder(view){
         this.upcCode?.text = comic.upc
         this.price?.text = "\$${comic.price}"
         this.poster?.let {
-            val url = "${comic.thumbnail}/portrait_xlarge.${comic.thumbnailExtension}"
+            val url = "${comic.thumbnail}/portrait_uncanny.${comic.thumbnailExtension}"
+                .replace("http","https")
+
             Picasso.get()
                 .load(url)
                 .into(it)
-
-            Log.d(RetrofitClient.TAG, url)
         }
     }
 }
