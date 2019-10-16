@@ -68,6 +68,7 @@ class MainActivity : AppCompatActivity() {
         R.id.preview -> {
             toast("Switching...")
             ComicFragment.changeSpanCount()
+            SavedFragment.changeSpanCount()
             true
         }
 
