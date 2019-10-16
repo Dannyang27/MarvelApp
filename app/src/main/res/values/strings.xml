@@ -24,4 +24,5 @@
     <string name="list_clear">List deleted</string>
     <string name="columns_updated">Columns changed to</string>
     <string name="setting_toolbar">Settings</string>
+    <string name="comic_info_title">Comic Info</string>
 </resources>
