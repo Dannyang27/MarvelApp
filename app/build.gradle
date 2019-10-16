@@ -5,6 +5,11 @@ apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 28
+
+    def apikeyPropertiesFile = rootProject.file("apikey.properties")
+    def apikeyProperties = new Properties()
+    apikeyProperties.load(new FileInputStream(apikeyPropertiesFile))
+
     defaultConfig {
         applicationId "com.marvel.ledannyyang"
         minSdkVersion 24
@@ -12,6 +17,8 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField("String", "MARVEL_PUBLIC_API_KEY", apikeyProperties['MARVEL_PUBLIC_API_KEY'])
     }
     buildTypes {
         release {
@@ -71,4 +78,5 @@ dependencies {
     implementation 'com.google.android.material:material:1.0.0'
 
     implementation 'com.h6ah4i.android.preference:numberpickerprefcompat:1.0.0'
+
 }

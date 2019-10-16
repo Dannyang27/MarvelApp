@@ -2,14 +2,17 @@ package com.marvel.ledannyyang.listadapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.marvel.ledannyyang.R
+import com.marvel.ledannyyang.diffutil.ComicDiffCallback
+import com.marvel.ledannyyang.model.pojo.ComicPojo
 import com.marvel.ledannyyang.viewholder.ComicPosterViewholder
 import com.marvel.ledannyyang.viewholder.ComicViewholder
 
 class ComicAdapter(private val gridLayoutManager: GridLayoutManager? = null,
-                   private val comics: MutableList<String>): RecyclerView.Adapter<RecyclerView.ViewHolder>(){
+                   private val comics: MutableList<ComicPojo>): RecyclerView.Adapter<RecyclerView.ViewHolder>(){
 
     enum class ViewType {
         LIST, GRID
@@ -41,8 +44,20 @@ class ComicAdapter(private val gridLayoutManager: GridLayoutManager? = null,
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        //TODO
+        val comic = comics[position]
+
+        when(holder){
+            is ComicViewholder -> holder.setViewholder(comic)
+            is ComicPosterViewholder -> holder.setViewholder(comic)
+        }
     }
 
     override fun getItemCount() = comics.size
+
+    fun updateList( newComics: MutableList<ComicPojo>){
+        val diffResult: DiffUtil.DiffResult = DiffUtil.calculateDiff(ComicDiffCallback(comics, newComics))
+        comics.clear()
+        comics.addAll(newComics)
+        diffResult.dispatchUpdatesTo(this)
+    }
 }

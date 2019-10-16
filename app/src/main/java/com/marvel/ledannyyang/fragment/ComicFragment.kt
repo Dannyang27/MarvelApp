@@ -11,11 +11,14 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.marvel.ledannyyang.R
 import com.marvel.ledannyyang.divider.HorizontalDivider
 import com.marvel.ledannyyang.listadapter.ComicAdapter
+import com.marvel.ledannyyang.model.pojo.ComicPojo
+import com.marvel.ledannyyang.retrofit.RetrofitClient
 import com.marvel.ledannyyang.util.ConnectionUtils
 import org.jetbrains.anko.toast
 
 class ComicFragment : Fragment(){
     private lateinit var swipeRefresh: SwipeRefreshLayout
+    private val comics = mutableListOf<ComicPojo>()
 
     companion object{
         var gridLayoutManager: GridLayoutManager? = null
@@ -36,6 +39,10 @@ class ComicFragment : Fragment(){
 
             viewAdapter.notifyItemRangeChanged(0, viewAdapter.itemCount)
         }
+
+        fun updateList(comics: MutableList<ComicPojo>){
+            viewAdapter.updateList(comics)
+        }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -43,7 +50,7 @@ class ComicFragment : Fragment(){
 
         swipeRefresh = view.findViewById(R.id.comic_swiperefresh)
         gridLayoutManager = GridLayoutManager(activity, 1)
-        viewAdapter = ComicAdapter(gridLayoutManager, mutableListOf("1,","2","3","1,","2","3","1,","2","3"))
+        viewAdapter = ComicAdapter(gridLayoutManager, comics)
         decorator = HorizontalDivider(activity?.applicationContext!!)
 
         comicList = view.findViewById<RecyclerView>(R.id.comic_list).apply {
@@ -70,6 +77,8 @@ class ComicFragment : Fragment(){
             }
             swipeRefresh.isRefreshing = false
         }
+
+        RetrofitClient.getLatestComics(activity?.applicationContext!!)
 
         return view
     }
