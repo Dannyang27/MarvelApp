@@ -67,12 +67,11 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem?) = when(item?.itemId){
         R.id.preview -> {
             toast("Switching...")
+            ComicFragment.changeSpanCount()
             true
         }
 
         R.id.settings -> {
-//            val intent = Intent(this, SettingActivity::class.java)
-//            startActivity(intent)
             toast("Settings...")
             true
         }
