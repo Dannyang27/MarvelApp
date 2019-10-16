@@ -67,7 +67,12 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem?) = when(item?.itemId){
         R.id.preview -> {
-            toast("Switching...")
+            if(item.icon.constantState == getDrawable(R.drawable.grid).constantState){
+                item.icon = getDrawable(R.drawable.list)
+            }else{
+                item.icon = getDrawable(R.drawable.grid)
+            }
+
             ComicFragment.changeSpanCount()
             SavedFragment.changeSpanCount()
             true
