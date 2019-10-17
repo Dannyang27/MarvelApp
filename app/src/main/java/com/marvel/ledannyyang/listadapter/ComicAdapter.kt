@@ -7,12 +7,12 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.marvel.ledannyyang.R
 import com.marvel.ledannyyang.diffutil.ComicDiffCallback
-import com.marvel.ledannyyang.model.pojo.ComicPojo
+import com.marvel.ledannyyang.model.Comic
 import com.marvel.ledannyyang.viewholder.ComicPosterViewholder
 import com.marvel.ledannyyang.viewholder.ComicViewholder
 
 class ComicAdapter(private val gridLayoutManager: GridLayoutManager? = null,
-                   private val comics: MutableList<ComicPojo>): RecyclerView.Adapter<RecyclerView.ViewHolder>(){
+                   private val comics: MutableList<Comic>): RecyclerView.Adapter<RecyclerView.ViewHolder>(){
 
     enum class ViewType {
         LIST, GRID
@@ -54,7 +54,7 @@ class ComicAdapter(private val gridLayoutManager: GridLayoutManager? = null,
 
     override fun getItemCount() = comics.size
 
-    fun updateList( newComics: MutableList<ComicPojo>){
+    fun updateList( newComics: MutableList<Comic>){
         val diffResult: DiffUtil.DiffResult = DiffUtil.calculateDiff(ComicDiffCallback(comics, newComics))
         comics.clear()
         comics.addAll(newComics)

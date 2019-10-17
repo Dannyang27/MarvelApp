@@ -1,8 +1,8 @@
 package com.marvel.ledannyyang.activity
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.marvel.ledannyyang.R
 import com.marvel.ledannyyang.fragment.MySettingFragment

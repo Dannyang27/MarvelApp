@@ -154,50 +154,22 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:padding="10dp">
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_weight="1">
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/writtenby"
+                        android:text="@string/credits"
                         android:textSize="@dimen/text_large"
                         android:textColor="@color/colorAccent"/>
 
                     <TextView
-                        android:id="@+id/comic_info_writers"
+                        android:id="@+id/comic_info_credits"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/writtenby_sample"
                         android:textSize="@dimen/text_medium"/>
-
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_weight="1">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/artby"
-                        android:textColor="@color/colorAccent"
-                        android:textSize="@dimen/text_large"/>
-
-                    <TextView
-                        android:id="@+id/comic_info_artists"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/artby_sample"
-                        android:textSize="@dimen/text_medium"/>
-                </LinearLayout>
             </LinearLayout>
 
             <TextView

@@ -1,17 +1,16 @@
 package com.marvel.ledannyyang.activity
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.marvel.ledannyyang.R
 import com.marvel.ledannyyang.fragment.ComicFragment
 import com.marvel.ledannyyang.fragment.SavedFragment
-import org.jetbrains.anko.toast
 
 class MainActivity : AppCompatActivity() {
 
