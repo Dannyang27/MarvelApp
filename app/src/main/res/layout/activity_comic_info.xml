@@ -10,10 +10,10 @@
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/comic_info_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
+        android:layout_height="?attr/actionBarSize"
         android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme" />
+        android:background="@color/colorPrimary"
+        android:theme="@style/ToolbarTheme"/>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -28,22 +28,23 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
+                android:orientation="horizontal"
                 android:background="@drawable/comicsampleblur">
 
                 <ImageView
                     android:id="@+id/comic_info_poster"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:srcCompat="@drawable/comicsample"
-                    android:paddingVertical="20dp"/>
+                    android:elevation="4dp"
+                    android:layout_margin="20dp"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:orientation="vertical"
-                    android:layout_gravity="center"
-                    android:padding="10dp"
+                    android:paddingVertical="20dp"
+                    android:paddingHorizontal="10dp"
                     android:layout_below="@+id/comic_info_poster">
                     <TextView
                         android:id="@+id/comic_info_diamondcode"
@@ -53,7 +54,7 @@
                         android:fontFamily="@font/robotobold"
                         android:textStyle="bold"
                         android:textSize="@dimen/text_verylarge"
-                        android:gravity="center_horizontal"/>
+                        android:textColor="@color/whitesmoke"/>
 
                     <TextView
                         android:id="@+id/comic_info_title"
@@ -61,15 +62,68 @@
                         android:layout_height="wrap_content"
                         android:text="@string/title_sample"
                         android:textSize="@dimen/text_large"
-                        android:gravity="center_horizontal"/>
+                        android:textColor="@color/whitesmoke"
+                        android:layout_marginBottom="10dp"/>
+
+                    <TextView
+                        android:id="@+id/comic_info_releasedate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/releasedate_sample"
+                        android:textSize="@dimen/text_medium"
+                        android:textColor="@color/whitesmoke"/>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/isbn_title"
+                            android:textSize="@dimen/text_small"
+                            android:textColor="@color/whitesmoke"/>
+
+                        <TextView
+                            android:id="@+id/comic_info_isbn"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/isbn_sample"
+                            android:textSize="@dimen/text_small"
+                            android:textColor="@color/whitesmoke"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/upc_title"
+                            android:textSize="@dimen/text_small"
+                            android:textColor="@color/whitesmoke"/>
+
+                        <TextView
+                            android:id="@+id/comic_info_upc"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/upc_sample"
+                            android:textSize="@dimen/text_small"
+                            android:textColor="@color/whitesmoke"/>
+                    </LinearLayout>
+
 
                     <TextView
                         android:id="@+id/comic_info_price"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:text="@string/price_sample"
-                        android:textSize="@dimen/text_large"
-                        android:gravity="center_horizontal"/>
+                        android:textSize="@dimen/text_verylarge"
+                        android:textColor="@color/whitesmoke"
+                        android:gravity="bottom"/>
 
                 </LinearLayout>
             </LinearLayout>
@@ -84,7 +138,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/overview"
-                    android:textSize="@dimen/text_large"/>
+                    android:textSize="@dimen/text_large"
+                    android:textColor="@color/colorAccent"/>
 
                 <TextView
                     android:id="@+id/comic_info_overview"
@@ -110,7 +165,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/writtenby"
-                        android:textSize="@dimen/text_large"/>
+                        android:textSize="@dimen/text_large"
+                        android:textColor="@color/colorAccent"/>
 
                     <TextView
                         android:layout_width="match_parent"
@@ -122,6 +178,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/coverby"
+                        android:textColor="@color/colorAccent"
                         android:textSize="@dimen/text_large"/>
 
                     <TextView
@@ -141,6 +198,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/artby"
+                        android:textColor="@color/colorAccent"
                         android:textSize="@dimen/text_large"/>
 
                     <TextView
@@ -156,56 +214,14 @@
                 android:layout_height="wrap_content"
                 android:text="@string/preview"
                 android:textSize="@dimen/text_large"
-                android:paddingHorizontal="10dp"/>
+                android:paddingHorizontal="10dp"
+                android:textColor="@color/colorAccent"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/comic_info_preview"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:padding="5dp"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="10dp"
-                android:layout_gravity="center">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/upc_title"
-                        android:textSize="@dimen/text_medium"/>
-                    <TextView
-                        android:id="@+id/comic_info_upc"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/upc_sample"
-                        android:textSize="@dimen/text_medium"/>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/isbn_title"
-                        android:textSize="@dimen/text_medium"/>
-                    <TextView
-                        android:id="@+id/comic_info_isbn"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/isbn_sample"
-                        android:textSize="@dimen/text_medium"/>
-                </LinearLayout>
-            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 </RelativeLayout>

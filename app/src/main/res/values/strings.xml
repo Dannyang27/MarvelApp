@@ -33,12 +33,13 @@
     <string name="upc_sample">5948392749-00111</string>
     <string name="isbn_sample">79483792019992</string>
     <string name="overview_sample">Has it really been 100 issues since Deadpool #900? Who cares! Deadpool has done it again in this compendium of face offs against urban cannibals, underage hit men, mimes from outer space, and Lady Luck herself!</string>
-    <string name="upc_title">UPC Code:</string>
-    <string name="isbn_title">ISBN:</string>
+    <string name="upc_title">UPC:</string>
+    <string name="isbn_title">ISBN: </string>
     <string name="writtenby">Written By:</string>
     <string name="writtenby_sample">Carl Burgos</string>
     <string name="coverby">Cover By:</string>
     <string name="coverby_sample">Frank R. Paul</string>
     <string name="artby">Art By:</string>
     <string name="artby_sample">Paul Gustavson</string>
+    <string name="releasedate_sample">2019-10-02</string>
 </resources>
