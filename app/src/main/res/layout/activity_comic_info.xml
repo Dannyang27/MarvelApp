@@ -23,56 +23,62 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="#F6F5F4">
-
-
-            <ImageView
-                android:id="@+id/comic_info_poster"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/comicsample"
-                android:paddingVertical="20dp"/>
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_gravity="center"
-                android:padding="10dp">
-                <TextView
-                    android:id="@+id/comic_info_diamondcode"
+                android:background="@drawable/comicsampleblur">
+
+                <ImageView
+                    android:id="@+id/comic_info_poster"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/diamondcode_sample"
-                    android:fontFamily="@font/robotobold"
-                    android:textStyle="bold"
-                    android:textSize="@dimen/text_verylarge"
-                    android:gravity="center_horizontal"/>
+                    app:srcCompat="@drawable/comicsample"
+                    android:paddingVertical="20dp"/>
 
-                <TextView
-                    android:id="@+id/comic_info_title"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/title_sample"
-                    android:textSize="@dimen/text_large"
-                    android:gravity="center_horizontal"/>
+                    android:orientation="vertical"
+                    android:layout_gravity="center"
+                    android:padding="10dp"
+                    android:layout_below="@+id/comic_info_poster">
+                    <TextView
+                        android:id="@+id/comic_info_diamondcode"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/diamondcode_sample"
+                        android:fontFamily="@font/robotobold"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/text_verylarge"
+                        android:gravity="center_horizontal"/>
 
-                <TextView
-                    android:id="@+id/comic_info_price"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/price_sample"
-                    android:textSize="@dimen/text_large"
-                    android:gravity="center_horizontal"/>
+                    <TextView
+                        android:id="@+id/comic_info_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/title_sample"
+                        android:textSize="@dimen/text_large"
+                        android:gravity="center_horizontal"/>
 
+                    <TextView
+                        android:id="@+id/comic_info_price"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/price_sample"
+                        android:textSize="@dimen/text_large"
+                        android:gravity="center_horizontal"/>
+
+                </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:paddingHorizontal="10dp">
+                android:padding="10dp">
 
                 <TextView
                     android:layout_width="match_parent"
