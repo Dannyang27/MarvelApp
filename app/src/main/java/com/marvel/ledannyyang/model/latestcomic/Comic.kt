@@ -15,6 +15,10 @@ data class Comic(
     val thumbnail: Thumbnail? = null,
     @SerializedName("images")
     val images: List<Image>? = null,
+    @SerializedName("diamondCode")
+    val diamondCode: String? = "",
+    @SerializedName("dates")
+    val dates: List<Date>? = null,
     @SerializedName("title")
     val title: String = "",
     @SerializedName("creators")

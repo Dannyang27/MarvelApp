@@ -42,4 +42,6 @@
     <string name="artby">Art By:</string>
     <string name="artby_sample">Paul Gustavson</string>
     <string name="releasedate_sample">2019-10-02</string>
+    <string name="pages_sample">92</string>
+    <string name="pages_title">Pages:</string>
 </resources>

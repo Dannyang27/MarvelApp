@@ -8,12 +8,13 @@ class ComicPojo(@PrimaryKey
                 val id: Int = -1,
                 val title: String? = "",
                 val description: String? = "",
-                val format: String? = "",
                 val upc: String? = "",
-                val issueNumber: Double? = -1.0,
+                val date: String? = "",
+                val diamondCode: String? = "",
                 val price: Double? = -1.0,
                 val thumbnail: String? = "",
                 val thumbnailExtension: String? = "",
                 val images: String? = "",
                 val pages: Int = -1,
-                val isFavourite: Boolean? = false)
+                val writer: String? = "",
+                val artBy: String? = "")

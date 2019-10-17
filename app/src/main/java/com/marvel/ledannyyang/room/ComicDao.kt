@@ -17,9 +17,9 @@ interface ComicDao{
     @Query("SELECT * FROM Comic")
     fun getComics() : MutableList<ComicPojo>
 
-    @Query("SELECT * FROM Comic WHERE isFavourite = 'true' ")
-    fun getSavedComics() : MutableList<ComicPojo>
+    @Query("SELECT * FROM Comic WHERE id=:id")
+    fun getComicById(id: Int) : ComicPojo
 
-    @Query("DELETE FROM Comic WHERE isFavourite = 'false' ")
+    @Query("DELETE FROM Comic")
     fun deleteComics()
 }

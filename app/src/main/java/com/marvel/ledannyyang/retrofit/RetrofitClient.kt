@@ -36,18 +36,27 @@ object RetrofitClient {
                 val roomDatabase = MyRoomDatabase.getMyRoomDatabase(context)
 
                 comicList?.forEach {
-                    val comic = ComicPojo(it.id, it.title, it.description, it.format, it.upc, it.issueNumber,
-                        it.prices?.get(0)?.price!!, it.thumbnail?.path.toString(), it.thumbnail?.extension.toString(),
-                        it.images?.joinToString(),it.pageCount,false)
+                    val date = it.dates?.filter { it.type == "onsaleDate" }
+                    val creators = it.creators?.items
+                    val writerList = creators?.filter { it.role == "writer" }?.take(3)
+                    val artistList = creators?.filter { it.role == "colorist" }?.take(3)
 
-                    roomDatabase?.addComic(comic)
+                    var writers = mutableListOf<String>()
+                    writerList?.forEach {
+                        writers.add(it.name)
+                    }
 
-                    it.creators?.items?.filter { it.role.contains("") }?.forEach {
-                        Log.d(TAG, "Creators: ${it.name} | Role: ${it.role}")
+                    var artists = mutableListOf<String>()
+                    artistList?.forEach {
+                        artists.add(it.name)
                     }
 
 
+                    val comic = ComicPojo(it.id, it.title, it.description, it.upc, date?.get(0)?.date, it.diamondCode,
+                        it.prices?.get(0)?.price!!, it.thumbnail?.path.toString(), it.thumbnail?.extension.toString(),
+                        it.images?.joinToString(),it.pageCount, writers.joinToString(), artists.joinToString() )
 
+                    roomDatabase?.addComic(comic)
                 }
 
                 roomDatabase?.updateComics()

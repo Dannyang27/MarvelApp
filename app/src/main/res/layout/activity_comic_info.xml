@@ -65,14 +65,6 @@
                         android:textColor="@color/whitesmoke"
                         android:layout_marginBottom="10dp"/>
 
-                    <TextView
-                        android:id="@+id/comic_info_releasedate"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/releasedate_sample"
-                        android:textSize="@dimen/text_medium"
-                        android:textColor="@color/whitesmoke"/>
-
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -81,18 +73,27 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/isbn_title"
-                            android:textSize="@dimen/text_small"
+                            android:text="@string/pages_title"
+                            android:textSize="@dimen/text_medium"
                             android:textColor="@color/whitesmoke"/>
 
                         <TextView
-                            android:id="@+id/comic_info_isbn"
+                            android:id="@+id/comic_info_pages"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/isbn_sample"
-                            android:textSize="@dimen/text_small"
-                            android:textColor="@color/whitesmoke"/>
+                            android:text="@string/pages_sample"
+                            android:textSize="@dimen/text_medium"
+                            android:textColor="@color/whitesmoke"
+                            android:paddingLeft="5dp"/>
                     </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/comic_info_releasedate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/releasedate_sample"
+                        android:textSize="@dimen/text_medium"
+                        android:textColor="@color/whitesmoke"/>
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -112,7 +113,8 @@
                             android:layout_height="wrap_content"
                             android:text="@string/upc_sample"
                             android:textSize="@dimen/text_small"
-                            android:textColor="@color/whitesmoke"/>
+                            android:textColor="@color/whitesmoke"
+                            android:paddingLeft="5dp"/>
                     </LinearLayout>
 
 
@@ -169,22 +171,10 @@
                         android:textColor="@color/colorAccent"/>
 
                     <TextView
+                        android:id="@+id/comic_info_writers"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/writtenby_sample"
-                        android:textSize="@dimen/text_medium"/>
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/coverby"
-                        android:textColor="@color/colorAccent"
-                        android:textSize="@dimen/text_large"/>
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/coverby_sample"
                         android:textSize="@dimen/text_medium"/>
 
                 </LinearLayout>
@@ -202,6 +192,7 @@
                         android:textSize="@dimen/text_large"/>
 
                     <TextView
+                        android:id="@+id/comic_info_artists"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/artby_sample"

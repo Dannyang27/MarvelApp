@@ -55,17 +55,15 @@ abstract class MyRoomDatabase: RoomDatabase(), CoroutineScope{
         }
     }
 
+    fun getComicById(id: Int): ComicPojo{
+        return comicDao().getComicById(id)
+    }
+
     fun updateComics(){
         launch {
             val comics = comicDao().getComics()
             Log.d(RetrofitClient.TAG, "Comic table size: ${comics.size}")
             ComicFragment.updateList(comics)
-        }
-    }
-
-    fun getSavedComics(){
-        launch {
-            comicDao().getSavedComics()
         }
     }
 }
