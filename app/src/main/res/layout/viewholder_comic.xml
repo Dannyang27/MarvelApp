@@ -15,7 +15,8 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:layout_weight="0.90">
+            android:layout_weight="0.90"
+            android:elevation="4dp">
 
             <ImageView
                 android:id="@+id/comic_default_poster"

@@ -25,4 +25,20 @@
     <string name="columns_updated">Columns changed to</string>
     <string name="setting_toolbar">Settings</string>
     <string name="comic_info_title">Comic Info</string>
+    <string name="overview">Overview</string>
+    <string name="preview">Preview</string>
+    <string name="diamondcode_sample">JAN01019</string>
+    <string name="title_sample">Deadpool (2019) #1000</string>
+    <string name="price_sample">$4.99</string>
+    <string name="upc_sample">5948392749-00111</string>
+    <string name="isbn_sample">79483792019992</string>
+    <string name="overview_sample">Has it really been 100 issues since Deadpool #900? Who cares! Deadpool has done it again in this compendium of face offs against urban cannibals, underage hit men, mimes from outer space, and Lady Luck herself!</string>
+    <string name="upc_title">UPC Code:</string>
+    <string name="isbn_title">ISBN:</string>
+    <string name="writtenby">Written By:</string>
+    <string name="writtenby_sample">Carl Burgos</string>
+    <string name="coverby">Cover By:</string>
+    <string name="coverby_sample">Frank R. Paul</string>
+    <string name="artby">Art By:</string>
+    <string name="artby_sample">Paul Gustavson</string>
 </resources>

@@ -13,8 +13,14 @@ data class Comic(
     val prices: List<Price>? = null,
     @SerializedName("thumbnail")
     val thumbnail: Thumbnail? = null,
+    @SerializedName("images")
+    val images: List<Image>? = null,
     @SerializedName("title")
     val title: String = "",
+    @SerializedName("creators")
+    val creators: Creators? = null,
+    @SerializedName("pageCount")
+    val pageCount: Int = -1,
     @SerializedName("upc")
     val upc: String = "",
     @SerializedName("issueNumber")

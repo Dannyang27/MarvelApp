@@ -11,6 +11,7 @@ import com.marvel.ledannyyang.activity.ComicInfoActivity
 import com.marvel.ledannyyang.model.pojo.ComicPojo
 import com.marvel.ledannyyang.retrofit.RetrofitClient
 import com.squareup.picasso.Picasso
+import org.jetbrains.anko.toast
 
 class ComicPosterViewholder(view: View): RecyclerView.ViewHolder(view){
     var id = -1
@@ -20,6 +21,7 @@ class ComicPosterViewholder(view: View): RecyclerView.ViewHolder(view){
     init {
         view.setOnClickListener {
             val intent = Intent(it.context, ComicInfoActivity::class.java)
+            intent.putExtra("comicId", this.id.toString())
             it.context.startActivity(intent)
         }
     }

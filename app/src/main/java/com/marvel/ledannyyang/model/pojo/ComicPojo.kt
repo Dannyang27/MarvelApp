@@ -14,4 +14,6 @@ class ComicPojo(@PrimaryKey
                 val price: Double? = -1.0,
                 val thumbnail: String? = "",
                 val thumbnailExtension: String? = "",
+                val images: String? = "",
+                val pages: Int = -1,
                 val isFavourite: Boolean? = false)

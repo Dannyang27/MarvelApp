@@ -37,9 +37,17 @@ object RetrofitClient {
 
                 comicList?.forEach {
                     val comic = ComicPojo(it.id, it.title, it.description, it.format, it.upc, it.issueNumber,
-                        it.prices?.get(0)?.price!!, it.thumbnail?.path.toString(), it.thumbnail?.extension.toString(), false)
+                        it.prices?.get(0)?.price!!, it.thumbnail?.path.toString(), it.thumbnail?.extension.toString(),
+                        it.images?.joinToString(),it.pageCount,false)
 
                     roomDatabase?.addComic(comic)
+
+                    it.creators?.items?.filter { it.role.contains("") }?.forEach {
+                        Log.d(TAG, "Creators: ${it.name} | Role: ${it.role}")
+                    }
+
+
+
                 }
 
                 roomDatabase?.updateComics()

@@ -22,6 +22,7 @@ class ComicViewholder(view: View): RecyclerView.ViewHolder(view){
     init {
         view.setOnClickListener {
             val intent = Intent(it.context, ComicInfoActivity::class.java)
+            intent.putExtra("comicId", this.id.toString())
             it.context.startActivity(intent)
         }
     }
