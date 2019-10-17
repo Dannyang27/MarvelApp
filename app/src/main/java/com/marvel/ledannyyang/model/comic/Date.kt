@@ -1,10 +1,11 @@
-package com.marvel.ledannyyang.model.latestcomic
+package com.marvel.ledannyyang.model.comic
+
 
 import com.google.gson.annotations.SerializedName
 
 data class Date(
     @SerializedName("date")
-    val date: String,
+    val date: String = "",
     @SerializedName("type")
-    val type: String
+    val type: String = ""
 )

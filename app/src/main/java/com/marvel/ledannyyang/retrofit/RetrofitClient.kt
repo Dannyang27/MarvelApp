@@ -3,14 +3,17 @@ package com.marvel.ledannyyang.retrofit
 import android.content.Context
 import android.util.Log
 import com.marvel.ledannyyang.BuildConfig
-import com.marvel.ledannyyang.model.latestcomic.ComicJSON
-import com.marvel.ledannyyang.model.pojo.ComicPojo
+import com.marvel.ledannyyang.activity.SplashActivity
+import com.marvel.ledannyyang.model.Comic
+import com.marvel.ledannyyang.model.comic.ComicJSON
 import com.marvel.ledannyyang.room.MyRoomDatabase
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.text.SimpleDateFormat
+import java.util.*
 
 object RetrofitClient {
 
@@ -25,41 +28,39 @@ object RetrofitClient {
 
     private val service = retrofit.create(GithubService::class.java)
 
-    fun getLatestComics(context: Context){
-        val call = service.getLatestComic(apikey, "1", hash, "-issueNumber")
-        call.enqueue(object: Callback<ComicJSON>{
+    fun getComicPreview(context: Context){
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd")
+        val year = Calendar.getInstance().get(Calendar.YEAR)
+        val range = "$year-01-01,${dateFormat.format(Date())}"
+
+        val call = service.getLatestComicPreview(apikey, "1", hash, "-onsaleDate", "comic", range, "thisMonth")
+        call.enqueue(object: Callback<ComicJSON> {
 
             override fun onResponse(call: Call<ComicJSON>, response: Response<ComicJSON>) {
                 val comic = response.body()?.copy()
-                val comicList = comic?.data?.results
+                val list = comic?.data?.results
+                    ?.filterNot { it.thumbnail?.path!!.contains("image_not_available") }
+                    ?.sortedBy { it.title }
 
                 val roomDatabase = MyRoomDatabase.getMyRoomDatabase(context)
 
-                comicList?.forEach {
-                    val date = it.dates?.filter { it.type == "onsaleDate" }
-                    val creators = it.creators?.items
-                    val writerList = creators?.filter { it.role == "writer" }?.take(3)
-                    val artistList = creators?.filter { it.role == "colorist" }?.take(3)
+                list?.forEach {
+                    val price = it.prices?.get(0)?.price
+                    val date = it.dates?.filter { it.type == "onsaleDate" }?.get(0)?.date
+                    val creatorList = it.creators?.items
 
-                    var writers = mutableListOf<String>()
-                    writerList?.forEach {
-                        writers.add(it.name)
+                    var creators = mutableListOf<String>()
+                    creatorList?.forEach {
+                        creators.add(it.name)
                     }
 
-                    var artists = mutableListOf<String>()
-                    artistList?.forEach {
-                        artists.add(it.name)
-                    }
+                    val comic = Comic(it.id, it.title, it.upc, price, it.thumbnail?.path, it.thumbnail?.extension,
+                        it.diamondCode, date, it.pageCount, it.description, creators.joinToString())
 
-
-                    val comic = ComicPojo(it.id, it.title, it.description, it.upc, date?.get(0)?.date, it.diamondCode,
-                        it.prices?.get(0)?.price!!, it.thumbnail?.path.toString(), it.thumbnail?.extension.toString(),
-                        it.images?.joinToString(),it.pageCount, writers.joinToString(), artists.joinToString() )
-
-                    roomDatabase?.addComic(comic)
+                    roomDatabase?.addComicPreview(comic)
                 }
 
-                roomDatabase?.updateComics()
+                SplashActivity.launchMainActivity(context)
             }
 
             override fun onFailure(call: Call<ComicJSON>, t: Throwable) {

@@ -1,23 +1,22 @@
 package com.marvel.ledannyyang.activity
 
-import android.graphics.drawable.BitmapDrawable
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.marvel.ledannyyang.R
 import com.marvel.ledannyyang.listadapter.PreviewAdapter
-import com.marvel.ledannyyang.model.pojo.ComicPojo
-import com.marvel.ledannyyang.retrofit.RetrofitClient
+import com.marvel.ledannyyang.model.Comic
 import com.marvel.ledannyyang.room.MyRoomDatabase
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import org.jetbrains.anko.toast
-import kotlin.coroutines.CoroutineContext
 
 class ComicInfoActivity : AppCompatActivity(), CoroutineScope {
 
@@ -33,8 +32,7 @@ class ComicInfoActivity : AppCompatActivity(), CoroutineScope {
     private lateinit var releaseDate: TextView
     private lateinit var upcCode: TextView
     private lateinit var overview: TextView
-    private lateinit var writers: TextView
-    private lateinit var artist: TextView
+    private lateinit var credits: TextView
     private lateinit var previewImagesList: RecyclerView
 
     private lateinit var viewManager: RecyclerView.LayoutManager
@@ -58,8 +56,7 @@ class ComicInfoActivity : AppCompatActivity(), CoroutineScope {
         upcCode = findViewById(R.id.comic_info_upc)
         price = findViewById(R.id.comic_info_price)
         overview = findViewById(R.id.comic_info_overview)
-        writers = findViewById(R.id.comic_info_writers)
-        artist = findViewById(R.id.comic_info_artists)
+        credits = findViewById(R.id.comic_info_credits)
 
         val comicId = intent.getStringExtra("comicId")
         toast(comicId)
@@ -87,15 +84,14 @@ class ComicInfoActivity : AppCompatActivity(), CoroutineScope {
         else -> super.onOptionsItemSelected(item)
     }
 
-    private fun setInfo(comic: ComicPojo?){
+    private fun setInfo(comic: Comic?){
         diamondCode.text = comic?.diamondCode
         title.text = comic?.title
         overview.text = comic?.description
         pages.text = comic?.pages.toString()
-        releaseDate.text = comic?.date
-        upcCode.text = comic?.upc
+        releaseDate.text = comic?.onsaleDate
+        upcCode.text = comic?.upcCode
         price.text = "$" + comic?.price.toString()
-        writers.text = comic?.writer
-        artist.text = comic?.artBy
+        credits.text = comic?.credits
     }
 }

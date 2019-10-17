@@ -1,7 +1,5 @@
 package com.marvel.ledannyyang.fragment
 
-import androidx.preference.EditTextPreference
-import com.marvel.ledannyyang.R
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.content.Intent
@@ -12,6 +10,7 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.h6ah4i.android.preference.NumberPickerPreferenceCompat
 import com.h6ah4i.android.preference.NumberPickerPreferenceDialogFragmentCompat
+import com.marvel.ledannyyang.R
 import org.jetbrains.anko.toast
 
 class MySettingFragment : PreferenceFragmentCompat(){

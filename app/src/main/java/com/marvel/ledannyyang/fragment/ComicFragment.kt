@@ -11,14 +11,19 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.marvel.ledannyyang.R
 import com.marvel.ledannyyang.divider.HorizontalDivider
 import com.marvel.ledannyyang.listadapter.ComicAdapter
-import com.marvel.ledannyyang.model.pojo.ComicPojo
-import com.marvel.ledannyyang.retrofit.RetrofitClient
+import com.marvel.ledannyyang.model.Comic
+import com.marvel.ledannyyang.room.MyRoomDatabase
 import com.marvel.ledannyyang.util.ConnectionUtils
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import org.jetbrains.anko.toast
 
-class ComicFragment : Fragment(){
+class ComicFragment : Fragment(), CoroutineScope{
+    override val coroutineContext = Dispatchers.IO + Job()
     private lateinit var swipeRefresh: SwipeRefreshLayout
-    private val comics = mutableListOf<ComicPojo>()
+    private val comics = mutableListOf<Comic>()
 
     companion object{
         var gridLayoutManager: GridLayoutManager? = null
@@ -40,7 +45,7 @@ class ComicFragment : Fragment(){
             viewAdapter.notifyItemRangeChanged(0, viewAdapter.itemCount)
         }
 
-        fun updateList(comics: MutableList<ComicPojo>){
+        fun updateList(comics: MutableList<Comic>){
             viewAdapter.updateList(comics)
         }
     }
@@ -78,7 +83,11 @@ class ComicFragment : Fragment(){
             swipeRefresh.isRefreshing = false
         }
 
-        RetrofitClient.getLatestComics(activity?.applicationContext!!)
+        launch {
+            val roomDatabase = MyRoomDatabase.getMyRoomDatabase(activity?.applicationContext!!)
+            val comics = roomDatabase?.getAllComicPreview()
+            updateList(comics!!)
+        }
 
         return view
     }

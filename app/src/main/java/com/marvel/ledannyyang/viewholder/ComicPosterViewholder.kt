@@ -1,17 +1,14 @@
 package com.marvel.ledannyyang.viewholder
 
 import android.content.Intent
-import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.marvel.ledannyyang.R
 import com.marvel.ledannyyang.activity.ComicInfoActivity
-import com.marvel.ledannyyang.model.pojo.ComicPojo
-import com.marvel.ledannyyang.retrofit.RetrofitClient
+import com.marvel.ledannyyang.model.Comic
 import com.squareup.picasso.Picasso
-import org.jetbrains.anko.toast
 
 class ComicPosterViewholder(view: View): RecyclerView.ViewHolder(view){
     var id = -1
@@ -26,12 +23,12 @@ class ComicPosterViewholder(view: View): RecyclerView.ViewHolder(view){
         }
     }
 
-    fun setViewholder(comic: ComicPojo){
+    fun setViewholder(comic: Comic){
         this.id = comic.id
         this.title?.text = comic.title
 
         this.poster?.let{
-            val url = "${comic.thumbnail}/portrait_uncanny.${comic.thumbnailExtension}"
+            val url = "${comic.imagePath}/portrait_uncanny.${comic.imageExt}"
                 .replace("http","https")
             Picasso.get()
                 .load(url)

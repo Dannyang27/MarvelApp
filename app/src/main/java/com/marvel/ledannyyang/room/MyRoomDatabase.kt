@@ -1,19 +1,16 @@
 package com.marvel.ledannyyang.room
 
 import android.content.Context
-import android.util.Log
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.marvel.ledannyyang.fragment.ComicFragment
-import com.marvel.ledannyyang.model.pojo.ComicPojo
-import com.marvel.ledannyyang.retrofit.RetrofitClient
+import com.marvel.ledannyyang.model.Comic
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
-@Database(entities = [ComicPojo::class], version = 1, exportSchema = false)
+@Database(entities = [Comic::class], version = 1, exportSchema = false)
 abstract class MyRoomDatabase: RoomDatabase(), CoroutineScope{
     private val job = Job()
     override val coroutineContext = Dispatchers.IO + job
@@ -37,33 +34,29 @@ abstract class MyRoomDatabase: RoomDatabase(), CoroutineScope{
         }
     }
 
-    fun addComic(comic: ComicPojo){
-        launch {
+    fun addComicPreview(comic: Comic){
+        launch{
             comicDao().insert(comic)
         }
     }
 
-    fun update(comic: ComicPojo){
+    fun updateComicPreview(comic: Comic){
         launch {
             comicDao().update(comic)
         }
     }
 
-    fun delete(comic: ComicPojo){
-        launch {
+    fun deleteComicPreview(comic: Comic){
+        launch{
             comicDao().delete(comic)
         }
     }
 
-    fun getComicById(id: Int): ComicPojo{
+    fun getComicById(id: Int): Comic{
         return comicDao().getComicById(id)
     }
 
-    fun updateComics(){
-        launch {
-            val comics = comicDao().getComics()
-            Log.d(RetrofitClient.TAG, "Comic table size: ${comics.size}")
-            ComicFragment.updateList(comics)
-        }
+    fun getAllComicPreview(): MutableList<Comic>{
+        return comicDao().getComics()
     }
 }

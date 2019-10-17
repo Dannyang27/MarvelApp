@@ -1,11 +1,11 @@
-package com.marvel.ledannyyang.model.latestcomic
+package com.marvel.ledannyyang.model.comic
 
 
 import com.google.gson.annotations.SerializedName
 
 data class Image(
     @SerializedName("extension")
-    val extension: String,
+    val extension: String = "",
     @SerializedName("path")
-    val path: String
+    val path: String = ""
 )
