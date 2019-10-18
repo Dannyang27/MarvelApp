@@ -41,7 +41,7 @@
                     android:layout_margin="20dp"
                     android:transitionName="@string/image_transition"/>
 
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
@@ -66,96 +66,119 @@
                         android:textSize="@dimen/text_verylarge"
                         android:textAllCaps="true"
                         android:textColor="@color/black"
-                        android:layout_marginBottom="10dp"/>
+                        android:layout_marginBottom="10dp"
+                        android:layout_below="@id/comic_info_diamondcode"/>
 
-
-                    <TextView
-                        android:id="@+id/comic_info_price"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:text="@string/price_sample"
-                        android:textSize="@dimen/text_verylarge"
-                        android:textColor="@color/black"
-                        android:gravity="bottom"/>
-
-                </LinearLayout>
+                </RelativeLayout>
             </LinearLayout>
 
-            <LinearLayout
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="10dp">
+                android:layout_margin="5dp"
+                app:cardElevation="4dp">
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="vertical"
+                    android:padding="10dp">
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/pages_title"
-                        android:textSize="@dimen/text_medium"
-                        android:textColor="@color/black"/>
 
-                    <TextView
-                        android:id="@+id/comic_info_pages"
-                        android:layout_width="match_parent"
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/pages_sample"
-                        android:textSize="@dimen/text_medium"
-                        android:textColor="@color/black"
-                        android:paddingLeft="5dp"/>
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/price_title"
+                            android:textSize="@dimen/text_medium"
+                            android:textColor="@color/black"/>
+
+                        <TextView
+                            android:id="@+id/comic_info_price"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/price_sample"
+                            android:textSize="@dimen/text_medium"
+                            android:textColor="@color/black"
+                            android:paddingLeft="5dp"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/pages_title"
+                            android:textSize="@dimen/text_medium"
+                            android:textColor="@color/black"/>
+
+                        <TextView
+                            android:id="@+id/comic_info_pages"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/pages_sample"
+                            android:textSize="@dimen/text_medium"
+                            android:textColor="@color/black"
+                            android:paddingLeft="5dp"/>
+                    </LinearLayout>
+
+
+
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/onsaledate_title"
+                            android:textSize="@dimen/text_medium"
+                            android:textColor="@color/black"/>
+
+                        <TextView
+                            android:id="@+id/comic_info_releasedate"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/releasedate_sample"
+                            android:textSize="@dimen/text_medium"
+                            android:textColor="@color/black"
+                            android:paddingLeft="5dp"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/upc_title"
+                            android:textSize="@dimen/text_medium"
+                            android:textColor="@color/black"/>
+
+                        <TextView
+                            android:id="@+id/comic_info_upc"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/upc_sample"
+                            android:textSize="@dimen/text_medium"
+                            android:textColor="@color/black"
+                            android:paddingLeft="5dp"/>
+                    </LinearLayout>
                 </LinearLayout>
 
-
-
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/onsaledate_title"
-                        android:textSize="@dimen/text_medium"
-                        android:textColor="@color/black"/>
-
-                    <TextView
-                        android:id="@+id/comic_info_releasedate"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/releasedate_sample"
-                        android:textSize="@dimen/text_medium"
-                        android:textColor="@color/black"
-                        android:paddingLeft="5dp"/>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/upc_title"
-                        android:textSize="@dimen/text_medium"
-                        android:textColor="@color/black"/>
-
-                    <TextView
-                        android:id="@+id/comic_info_upc"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/upc_sample"
-                        android:textSize="@dimen/text_medium"
-                        android:textColor="@color/black"
-                        android:paddingLeft="5dp"/>
-                </LinearLayout>
-            </LinearLayout>
+            </androidx.cardview.widget.CardView>
 
             <LinearLayout
                 android:id="@+id/description_layout"

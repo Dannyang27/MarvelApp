@@ -14,7 +14,6 @@ import com.marvel.ledannyyang.model.Comic
 import com.marvel.ledannyyang.room.MyRoomDatabase
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.*
-import org.jetbrains.anko.toast
 
 class ComicInfoActivity : AppCompatActivity(), CoroutineScope {
 
@@ -58,7 +57,6 @@ class ComicInfoActivity : AppCompatActivity(), CoroutineScope {
         credits = findViewById(R.id.comic_info_credits)
 
         val comicDiamondCode = intent.getStringExtra("diamondCode")
-        toast(comicDiamondCode)
 
         launch {
             val comic = MyRoomDatabase.getMyRoomDatabase(this@ComicInfoActivity)?.getComicByDiamondCode(comicDiamondCode)
@@ -70,10 +68,12 @@ class ComicInfoActivity : AppCompatActivity(), CoroutineScope {
 
     override fun onOptionsItemSelected(item: MenuItem?) = when(item?.itemId){
         android.R.id.home -> {
+            onBackPressed()
             true
         }
         else -> super.onOptionsItemSelected(item)
     }
+
 
     private fun setInfo(comic: Comic?){
         diamondCode.text = comic?.diamondCode

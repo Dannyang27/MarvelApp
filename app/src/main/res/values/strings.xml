@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">MarvelApp</string>
-    <string name="comic_title">Comic</string>
-    <string name="saved">Saved</string>
+    <string name="comic_title">New Releases</string>
+    <string name="saved">Favourites</string>
     <string name="grid">Grid</string>
     <string name="settings">Settings</string>
     <string name="image_transition">image_transition</string>
@@ -44,4 +44,5 @@
     <string name="pages_title">PAGES:</string>
     <string name="credits">CREDITS</string>
     <string name="onsaledate_title">ON SALE DATE:</string>
+    <string name="price_title">PRICE:</string>
 </resources>
