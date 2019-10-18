@@ -40,14 +40,14 @@ object RetrofitClient{
 
     private var roomDatabase: MyRoomDatabase? = null
 
-    fun getComicPreview(context: Context){
+    fun getComicPreview(context: Context, limit: Int){
         val dateFormat = SimpleDateFormat("yyyy-MM-dd")
         val year = Calendar.getInstance().get(Calendar.YEAR)
         val range = "$year-01-01,${dateFormat.format(Date())}"
 
-        val call = service.getLatestComicPreview(apikey, "1", hash, "-onsaleDate", "comic", range, "thisMonth")
+        val call = service.getLatestComicPreview(apikey, "1", hash, "-onsaleDate",
+            "comic", range, "thisMonth", limit)
         call.enqueue(object: Callback<ComicJSON> {
-
             override fun onResponse(call: Call<ComicJSON>, response: Response<ComicJSON>) {
                 val comic = response.body()?.copy()
                 val list = comic?.data?.results
@@ -61,18 +61,11 @@ object RetrofitClient{
                 list?.forEach {
                     val price = it.prices?.get(0)?.price
                     val date = it.dates?.filter { it.type == "onsaleDate" }?.get(0)?.date
-//                    val creatorList = it.creators?.items
-//
-//                    var creators = mutableListOf<String>()
-//                    creatorList?.forEach {
-//                        creators.add(it.name)
-//                    }
 
                     val comic = Comic(it.id, it.title, it.upc, price, it.thumbnail?.path, it.thumbnail?.extension,
-                        it.diamondCode, date, it.pageCount, "", "")
+                        it.diamondCode, date, it.pageCount, "", "", false)
 
                     roomDatabase?.addComicPreview(comic)
-
                     getComicDescription(comic)
                 }
 
@@ -100,15 +93,11 @@ object RetrofitClient{
                 comic.credits = creators
 
                 roomDatabase?.updateComicPreview(comic)
-                Log.d(TAG, "Creators: ${comic.credits}")
-
             }
 
             override fun onFailure(call: Call<ComicDescription>, t: Throwable) {
                 Log.d(TAG, "Error while getting latest comic")
             }
         })
-
-
     }
 }

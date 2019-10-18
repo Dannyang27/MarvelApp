@@ -45,4 +45,10 @@
     <string name="credits">CREDITS</string>
     <string name="onsaledate_title">ON SALE DATE:</string>
     <string name="price_title">PRICE:</string>
+    <string name="connectedToInternet">Connected to network</string>
+    <string name="noconnection">No network connection</string>
+    <string name="emptylist">No comics found</string>
+    <string name="tip_add">Check your connection and try again</string>
+    <string name="tip_save">Try long pressing a comic to add it as favourite</string>
+    <string name="no_favourite">Empty list</string>
 </resources>

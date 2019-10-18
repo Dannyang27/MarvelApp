@@ -15,5 +15,6 @@ class Comic(@PrimaryKey
             val onsaleDate: String? = null,
             val pages: Int? = null,
             var description: String? = null,
-            var credits: String? = null)
+            var credits: String? = null,
+            var isFavourite: Boolean = false)
 

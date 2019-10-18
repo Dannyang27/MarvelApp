@@ -8,6 +8,7 @@ import android.os.Bundle
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.marvel.ledannyyang.R
+import com.marvel.ledannyyang.room.MyRoomDatabase
 import org.jetbrains.anko.toast
 
 class MySettingFragment : PreferenceFragmentCompat(){
@@ -28,6 +29,7 @@ class MySettingFragment : PreferenceFragmentCompat(){
 
             builder.setPositiveButton("Continue", DialogInterface.OnClickListener { dialog, which ->
                 clearList.context.toast(getString(R.string.list_clear))
+                MyRoomDatabase.getMyRoomDatabase(clearList.context)?.clearFavourites()
                 true
             })
 

@@ -12,6 +12,7 @@ import com.marvel.ledannyyang.R
 import com.marvel.ledannyyang.divider.HorizontalDivider
 import com.marvel.ledannyyang.listadapter.ComicAdapter
 import com.marvel.ledannyyang.model.Comic
+import com.marvel.ledannyyang.retrofit.RetrofitClient
 import com.marvel.ledannyyang.room.MyRoomDatabase
 import com.marvel.ledannyyang.util.ConnectionUtils
 import kotlinx.coroutines.CoroutineScope
@@ -22,8 +23,8 @@ import org.jetbrains.anko.toast
 
 class ComicFragment : Fragment(), CoroutineScope{
     override val coroutineContext = Dispatchers.IO + Job()
-    private lateinit var swipeRefresh: SwipeRefreshLayout
     private val comics = mutableListOf<Comic>()
+    private var roomDatabase: MyRoomDatabase? = null
 
     companion object{
         var gridLayoutManager: GridLayoutManager? = null
@@ -53,7 +54,6 @@ class ComicFragment : Fragment(), CoroutineScope{
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_comic, container, false)
 
-        swipeRefresh = view.findViewById(R.id.comic_swiperefresh)
         gridLayoutManager = GridLayoutManager(activity, 1)
         viewAdapter = ComicAdapter(gridLayoutManager, comics)
         decorator = HorizontalDivider(activity?.applicationContext!!)
@@ -63,28 +63,10 @@ class ComicFragment : Fragment(), CoroutineScope{
             layoutManager = gridLayoutManager
             addItemDecoration(decorator)
             adapter = viewAdapter
-
-            addOnScrollListener(object: RecyclerView.OnScrollListener(){
-                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                    val isBottomReached = !recyclerView.canScrollVertically(1)
-                    if (isBottomReached){
-                        context.toast("Bottom reached")
-                    }
-                }
-            })
-        }
-
-        swipeRefresh.setOnRefreshListener {
-            if(ConnectionUtils.isConnectedToNetwork(activity?.applicationContext!!)){
-                context?.toast("Connected to Internet")
-            }else{
-                context?.toast("Not connected to Internet")
-            }
-            swipeRefresh.isRefreshing = false
         }
 
         launch {
-            val roomDatabase = MyRoomDatabase.getMyRoomDatabase(activity?.applicationContext!!)
+            roomDatabase = MyRoomDatabase.getMyRoomDatabase(activity?.applicationContext!!)
             val comics = roomDatabase?.getAllComicPreview()
             updateList(comics!!)
         }

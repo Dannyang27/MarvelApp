@@ -14,5 +14,6 @@ interface GithubService {
                                @Query("orderBy") orderBy: String,
                                @Query("format") format: String,
                                @Query("dateRange") dateRange: String,
-                               @Query("dateDescriptor") dateDesc: String) : Call<ComicJSON>
+                               @Query("dateDescriptor") dateDesc: String,
+                               @Query("limit") limit: Int) : Call<ComicJSON>
 }

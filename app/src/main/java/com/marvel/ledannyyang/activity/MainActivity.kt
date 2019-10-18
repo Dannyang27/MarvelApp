@@ -11,6 +11,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.marvel.ledannyyang.R
 import com.marvel.ledannyyang.fragment.ComicFragment
 import com.marvel.ledannyyang.fragment.SavedFragment
+import com.marvel.ledannyyang.util.ConnectionUtils
+import org.jetbrains.anko.toast
 
 class MainActivity : AppCompatActivity() {
 
@@ -54,6 +56,10 @@ class MainActivity : AppCompatActivity() {
 
         supportFragmentManager.beginTransaction().add(R.id.container, savedFragment, "2").hide(savedFragment).commit()
         supportFragmentManager.beginTransaction().add(R.id.container, comicFragment, "1").commit()
+
+        if(!ConnectionUtils.isOnline(this)){
+            toast(R.string.noconnection)
+        }
     }
 
     override fun onBackPressed() {}

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -12,12 +13,18 @@ import com.marvel.ledannyyang.R
 import com.marvel.ledannyyang.divider.HorizontalDivider
 import com.marvel.ledannyyang.listadapter.ComicAdapter
 import com.marvel.ledannyyang.model.Comic
+import com.marvel.ledannyyang.room.MyRoomDatabase
 import com.marvel.ledannyyang.util.ConnectionUtils
+import kotlinx.coroutines.*
 import org.jetbrains.anko.toast
+import kotlin.coroutines.CoroutineContext
 
-class SavedFragment : Fragment(){
+class SavedFragment : Fragment(), CoroutineScope{
+    override val coroutineContext = Dispatchers.IO + Job()
     private lateinit var swipeRefresh: SwipeRefreshLayout
+    private lateinit var noitemLayout: LinearLayout
     private val savedComics = mutableListOf<Comic>()
+    private var roomDatabase: MyRoomDatabase? = null
 
     companion object{
         var gridLayoutManager: GridLayoutManager? = null
@@ -48,6 +55,7 @@ class SavedFragment : Fragment(){
         val view =  inflater.inflate(R.layout.fragment_saved, container, false)
 
         swipeRefresh = view.findViewById(R.id.saved_swiperefresh)
+        noitemLayout = view.findViewById(R.id.favourite_layout)
         gridLayoutManager = GridLayoutManager(activity, 1)
         viewAdapter = ComicAdapter(gridLayoutManager, savedComics)
         decorator = HorizontalDivider(activity?.applicationContext!!)
@@ -57,24 +65,36 @@ class SavedFragment : Fragment(){
             layoutManager = gridLayoutManager
             addItemDecoration(decorator)
             adapter = viewAdapter
-
-            addOnScrollListener(object: RecyclerView.OnScrollListener(){
-                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                    val isBottomReached = !recyclerView.canScrollVertically(1)
-                    if (isBottomReached){
-                        context.toast("Bottom reached")
-                    }
-                }
-            })
         }
 
         swipeRefresh.setOnRefreshListener {
-            if(ConnectionUtils.isConnectedToNetwork(activity?.applicationContext!!)){
-                context?.toast("Connected to Internet")
-            }else{
-                context?.toast("Not connected to Internet")
+            launch {
+                val favComics = roomDatabase?.getFavouriteComics()
+
+                withContext(Dispatchers.Main){
+                    if(favComics?.isNotEmpty()!!){
+                        noitemLayout.visibility = View.GONE
+                    }else{
+                        noitemLayout.visibility = View.VISIBLE
+                    }
+                }
+
+                viewAdapter.updateList(favComics!!)
             }
             swipeRefresh.isRefreshing = false
+        }
+
+        launch {
+            roomDatabase =  MyRoomDatabase.getMyRoomDatabase(activity?.applicationContext!!)
+            val favComics = roomDatabase?.getFavouriteComics()
+
+            if(favComics.isNullOrEmpty()){
+                withContext(Dispatchers.Main){
+                    noitemLayout.visibility = View.VISIBLE
+                }
+            }
+
+            viewAdapter.updateList(favComics!!)
         }
 
         return view

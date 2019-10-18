@@ -1,10 +1,12 @@
 package com.marvel.ledannyyang.room
 
 import android.content.Context
+import android.util.Log
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.marvel.ledannyyang.model.Comic
+import com.marvel.ledannyyang.retrofit.RetrofitClient
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -50,6 +52,26 @@ abstract class MyRoomDatabase: RoomDatabase(), CoroutineScope{
         launch{
             comicDao().delete(comic)
         }
+    }
+
+    fun getTableSize(): Int{
+        return comicDao().getTableSize()
+    }
+
+    fun clearFavourites(){
+        launch{
+            comicDao().clearFavourites()
+        }
+    }
+
+    fun getComicWithinRange(limit: Int, offset: Int): MutableList<Comic>{
+        val comics = comicDao().getComicsWithinRange(limit, offset)
+        Log.d(RetrofitClient.TAG, "Within range size: ${comics.size}")
+        return comics
+    }
+
+    fun getFavouriteComics(): MutableList<Comic>{
+        return comicDao().getFavouriteComics(true)
     }
 
     fun getComicById(id: Int): Comic{

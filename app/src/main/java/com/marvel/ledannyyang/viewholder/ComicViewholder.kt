@@ -10,9 +10,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.marvel.ledannyyang.R
 import com.marvel.ledannyyang.activity.ComicInfoActivity
 import com.marvel.ledannyyang.model.Comic
+import com.marvel.ledannyyang.room.MyRoomDatabase
 import com.squareup.picasso.Picasso
+import kotlinx.coroutines.*
+import org.jetbrains.anko.toast
+import kotlin.coroutines.CoroutineContext
 
-class ComicViewholder(view: View): RecyclerView.ViewHolder(view){
+class ComicViewholder(view: View): RecyclerView.ViewHolder(view), CoroutineScope{
+    override val coroutineContext = Dispatchers.IO + Job()
     var diamondCode = ""
     val poster: ImageView? = view.findViewById(R.id.comic_default_poster)
     val title: TextView? = view.findViewById(R.id.comic_default_title)
@@ -26,6 +31,20 @@ class ComicViewholder(view: View): RecyclerView.ViewHolder(view){
             val options = ActivityOptions.makeSceneTransitionAnimation(
                 it.context as Activity, poster as View, it.context.getString(R.string.image_transition))
             it.context.startActivity(intent, options.toBundle())
+        }
+
+        view.setOnLongClickListener {
+            launch {
+                val roomDatabase = MyRoomDatabase.getMyRoomDatabase(it.context)
+                val comic = roomDatabase?.getComicByDiamondCode(diamondCode)
+                comic?.isFavourite = true
+                roomDatabase?.updateComicPreview(comic!!)
+                withContext(Dispatchers.Main){
+                    it.context.toast("Comic added to favourites")
+                }
+            }
+
+            true
         }
     }
 
