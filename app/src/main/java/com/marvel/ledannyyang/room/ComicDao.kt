@@ -20,6 +20,9 @@ interface ComicDao{
     @Query("SELECT * FROM Comic WHERE id =:id")
     fun getComicById( id: Int) : Comic
 
+    @Query("SELECT * FROM Comic WHERE diamondCode =:diamondCode")
+    fun getComicByDiamondCode( diamondCode: String) : Comic
+
     @Query("DELETE FROM Comic")
     fun deleteComics()
 }

@@ -56,6 +56,10 @@ abstract class MyRoomDatabase: RoomDatabase(), CoroutineScope{
         return comicDao().getComicById(id)
     }
 
+    fun getComicByDiamondCode(diamondCode: String): Comic{
+        return comicDao().getComicByDiamondCode(diamondCode)
+    }
+
     fun getAllComicPreview(): MutableList<Comic>{
         return comicDao().getComics()
     }

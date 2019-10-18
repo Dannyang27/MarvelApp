@@ -1,5 +1,7 @@
 package com.marvel.ledannyyang.viewholder
 
+import android.app.Activity
+import android.app.ActivityOptions
 import android.content.Intent
 import android.view.View
 import android.widget.ImageView
@@ -11,20 +13,23 @@ import com.marvel.ledannyyang.model.Comic
 import com.squareup.picasso.Picasso
 
 class ComicPosterViewholder(view: View): RecyclerView.ViewHolder(view){
-    var id = -1
+    var diamondCode = ""
     val poster: ImageView? = view.findViewById(R.id.comic_grid_poster)
     val title: TextView? = view.findViewById(R.id.comic_grid_title)
 
     init {
         view.setOnClickListener {
             val intent = Intent(it.context, ComicInfoActivity::class.java)
-            intent.putExtra("comicId", this.id.toString())
+            intent.putExtra("diamondCode", diamondCode)
+            val options = ActivityOptions.makeSceneTransitionAnimation(
+                it.context as Activity, poster as View, it.context.getString(R.string.image_transition))
+            it.context.startActivity(intent, options.toBundle())
             it.context.startActivity(intent)
         }
     }
 
     fun setViewholder(comic: Comic){
-        this.id = comic.id
+        this.diamondCode = comic.diamondCode.toString()
         this.title?.text = comic.title
 
         this.poster?.let{

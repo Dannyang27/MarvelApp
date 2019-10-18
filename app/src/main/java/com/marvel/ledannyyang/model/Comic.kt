@@ -14,6 +14,6 @@ class Comic(@PrimaryKey
             val diamondCode: String? = null,
             val onsaleDate: String? = null,
             val pages: Int? = null,
-            val description: String? = null,
-            val credits: String? = null)
+            var description: String? = null,
+            var credits: String? = null)
 

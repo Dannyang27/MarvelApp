@@ -25,7 +25,7 @@
     <string name="columns_updated">Columns changed to</string>
     <string name="setting_toolbar">Settings</string>
     <string name="comic_info_title">Comic Info</string>
-    <string name="overview">Overview</string>
+    <string name="description">DESCRIPTION</string>
     <string name="preview">Preview</string>
     <string name="diamondcode_sample">JAN01019</string>
     <string name="title_sample">Deadpool (2019) #1000</string>
@@ -37,12 +37,11 @@
     <string name="isbn_title">ISBN: </string>
     <string name="writtenby">Written By:</string>
     <string name="writtenby_sample">Carl Burgos</string>
-    <string name="coverby">Cover By:</string>
     <string name="coverby_sample">Frank R. Paul</string>
-    <string name="artby">Art By:</string>
     <string name="artby_sample">Paul Gustavson</string>
     <string name="releasedate_sample">2019-10-02</string>
     <string name="pages_sample">92</string>
-    <string name="pages_title">Pages:</string>
-    <string name="credits">Credits</string>
+    <string name="pages_title">PAGES:</string>
+    <string name="credits">CREDITS</string>
+    <string name="onsaledate_title">ON SALE DATE:</string>
 </resources>

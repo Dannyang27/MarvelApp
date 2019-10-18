@@ -12,7 +12,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/comicsample"
-        android:elevation="4dp"/>
+        android:elevation="4dp"
+        android:transitionName="@string/image_transition"/>
 
     <TextView
         android:id="@+id/comic_grid_title"

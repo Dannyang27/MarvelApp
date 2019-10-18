@@ -1,21 +1,20 @@
 package com.marvel.ledannyyang.activity
 
+
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.View
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.marvel.ledannyyang.R
-import com.marvel.ledannyyang.listadapter.PreviewAdapter
+import com.marvel.ledannyyang.getDate
 import com.marvel.ledannyyang.model.Comic
 import com.marvel.ledannyyang.room.MyRoomDatabase
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
+import com.squareup.picasso.Picasso
+import kotlinx.coroutines.*
 import org.jetbrains.anko.toast
 
 class ComicInfoActivity : AppCompatActivity(), CoroutineScope {
@@ -24,6 +23,8 @@ class ComicInfoActivity : AppCompatActivity(), CoroutineScope {
     override val coroutineContext = Dispatchers.IO + job
 
     private lateinit var toolbar: Toolbar
+    lateinit var descriptionLayout: LinearLayout
+    lateinit var description: TextView
     private lateinit var poster: ImageView
     private lateinit var diamondCode: TextView
     private lateinit var title: TextView
@@ -31,12 +32,7 @@ class ComicInfoActivity : AppCompatActivity(), CoroutineScope {
     private lateinit var pages: TextView
     private lateinit var releaseDate: TextView
     private lateinit var upcCode: TextView
-    private lateinit var overview: TextView
     private lateinit var credits: TextView
-    private lateinit var previewImagesList: RecyclerView
-
-    private lateinit var viewManager: RecyclerView.LayoutManager
-    private lateinit var previewAdapter: RecyclerView.Adapter<*>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,30 +45,25 @@ class ComicInfoActivity : AppCompatActivity(), CoroutineScope {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
+        descriptionLayout = findViewById(R.id.description_layout)
+        description = findViewById(R.id.comic_info_overview)
+        poster = findViewById(R.id.comic_info_poster)
         diamondCode = findViewById(R.id.comic_info_diamondcode)
         title = findViewById(R.id.comic_info_title)
         pages = findViewById(R.id.comic_info_pages)
         releaseDate = findViewById(R.id.comic_info_releasedate)
         upcCode = findViewById(R.id.comic_info_upc)
         price = findViewById(R.id.comic_info_price)
-        overview = findViewById(R.id.comic_info_overview)
         credits = findViewById(R.id.comic_info_credits)
 
-        val comicId = intent.getStringExtra("comicId")
-        toast(comicId)
-
-        viewManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-        previewAdapter = PreviewAdapter(mutableListOf("1", "1", "2", "1", "1", "2"))
-
-        previewImagesList = findViewById<RecyclerView>(R.id.comic_info_preview).apply {
-            setHasFixedSize(true)
-            layoutManager = viewManager
-            adapter =previewAdapter
-        }
+        val comicDiamondCode = intent.getStringExtra("diamondCode")
+        toast(comicDiamondCode)
 
         launch {
-            val comic = MyRoomDatabase.getMyRoomDatabase(this@ComicInfoActivity)?.getComicById(Integer.parseInt(comicId))
-            setInfo(comic)
+            val comic = MyRoomDatabase.getMyRoomDatabase(this@ComicInfoActivity)?.getComicByDiamondCode(comicDiamondCode)
+            withContext(Dispatchers.Main){
+                setInfo(comic)
+            }
         }
     }
 
@@ -87,11 +78,24 @@ class ComicInfoActivity : AppCompatActivity(), CoroutineScope {
     private fun setInfo(comic: Comic?){
         diamondCode.text = comic?.diamondCode
         title.text = comic?.title
-        overview.text = comic?.description
         pages.text = comic?.pages.toString()
-        releaseDate.text = comic?.onsaleDate
+        releaseDate.text = comic?.onsaleDate?.getDate()
         upcCode.text = comic?.upcCode
         price.text = "$" + comic?.price.toString()
         credits.text = comic?.credits
+
+        comic?.description?.let{
+            description.text = comic?.description
+            descriptionLayout.visibility = View.VISIBLE
+        }
+
+        poster.let {
+            val url = "${comic?.imagePath}/portrait_uncanny.${comic?.imageExt}"
+                .replace("http","https")
+
+            Picasso.get()
+                .load(url)
+                .into(it)
+        }
     }
 }
