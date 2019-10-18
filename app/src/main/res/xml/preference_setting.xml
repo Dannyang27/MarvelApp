@@ -2,15 +2,6 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <com.h6ah4i.android.preference.NumberPickerPreferenceCompat
-        android:key="grid_columns"
-        android:summary="@string/pref_query_limit_summ"
-        android:title="@string/pref_query_limit"
-        app:nppc_maxValue="5"
-        app:nppc_minValue="2"
-        app:nppc_unitText="%"
-        android:layout="@layout/font_layout"/>
-
     <Preference
         android:key="comicList"
         android:title="@string/saved_list"

@@ -1,6 +1,5 @@
 package com.marvel.ledannyyang.activity
 
-
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
@@ -23,8 +22,9 @@ class ComicInfoActivity : AppCompatActivity(), CoroutineScope {
     override val coroutineContext = Dispatchers.IO + job
 
     private lateinit var toolbar: Toolbar
-    lateinit var descriptionLayout: LinearLayout
-    lateinit var description: TextView
+    private lateinit var descriptionLayout: LinearLayout
+    private lateinit var description: TextView
+    private lateinit var creditLayout: LinearLayout
     private lateinit var poster: ImageView
     private lateinit var diamondCode: TextView
     private lateinit var title: TextView
@@ -46,6 +46,7 @@ class ComicInfoActivity : AppCompatActivity(), CoroutineScope {
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
         descriptionLayout = findViewById(R.id.description_layout)
+        creditLayout = findViewById(R.id.credits_layout)
         description = findViewById(R.id.comic_info_overview)
         poster = findViewById(R.id.comic_info_poster)
         diamondCode = findViewById(R.id.comic_info_diamondcode)
@@ -69,7 +70,6 @@ class ComicInfoActivity : AppCompatActivity(), CoroutineScope {
 
     override fun onOptionsItemSelected(item: MenuItem?) = when(item?.itemId){
         android.R.id.home -> {
-            finish()
             true
         }
         else -> super.onOptionsItemSelected(item)
@@ -82,11 +82,15 @@ class ComicInfoActivity : AppCompatActivity(), CoroutineScope {
         releaseDate.text = comic?.onsaleDate?.getDate()
         upcCode.text = comic?.upcCode
         price.text = "$" + comic?.price.toString()
-        credits.text = comic?.credits
 
         comic?.description?.let{
-            description.text = comic?.description
+            description.text = comic.description
             descriptionLayout.visibility = View.VISIBLE
+        }
+
+        comic?.credits?.let{
+            credits.text = comic.credits
+            creditLayout.visibility = View.VISIBLE
         }
 
         poster.let {

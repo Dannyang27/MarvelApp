@@ -24,7 +24,6 @@ class ComicPosterViewholder(view: View): RecyclerView.ViewHolder(view){
             val options = ActivityOptions.makeSceneTransitionAnimation(
                 it.context as Activity, poster as View, it.context.getString(R.string.image_transition))
             it.context.startActivity(intent, options.toBundle())
-            it.context.startActivity(intent)
         }
     }
 

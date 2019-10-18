@@ -1,5 +1,6 @@
 package com.marvel.ledannyyang.activity
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -14,6 +15,9 @@ class SplashActivity : AppCompatActivity() {
             val intent = Intent(context, MainActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
             context.startActivity(intent)
+            val activity = context as Activity
+            activity.overridePendingTransition(R.anim.fadein, R.anim.fadeout);
+            activity.finish()
         }
     }
 

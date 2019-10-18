@@ -5,53 +5,21 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import androidx.fragment.app.DialogFragment
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
-import com.h6ah4i.android.preference.NumberPickerPreferenceCompat
-import com.h6ah4i.android.preference.NumberPickerPreferenceDialogFragmentCompat
 import com.marvel.ledannyyang.R
 import org.jetbrains.anko.toast
 
 class MySettingFragment : PreferenceFragmentCompat(){
-    private lateinit var numberColums: NumberPickerPreferenceCompat
     private lateinit var clearList: Preference
     private lateinit var deleteCache: Preference
     private lateinit var sendFeedback: Preference
 
-    private val DIALOG_FRAGMENT_TAG = "androidx.preference.PreferenceFragment.DIALOG"
-
-    override fun onDisplayPreferenceDialog(preference: Preference?) {
-        var dialogFragment: DialogFragment?
-        fragmentManager?.findFragmentByTag(DIALOG_FRAGMENT_TAG)?.let {
-            if(preference is NumberPickerPreferenceCompat){
-                dialogFragment = NumberPickerPreferenceDialogFragmentCompat.newInstance(preference.key)
-            }else{
-                dialogFragment = null
-            }
-
-            dialogFragment?.let {
-                it.setTargetFragment(this, 0)
-                it.show(fragmentManager, DIALOG_FRAGMENT_TAG)
-                context?.toast("Dialog fragment show")
-            }
-
-            if(dialogFragment == null){
-                super.onDisplayPreferenceDialog(preference)
-            }
-        }
-    }
-
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preference_setting, rootKey)
-        numberColums = findPreference("grid_columns") as NumberPickerPreferenceCompat
         clearList  = findPreference("comicList") as Preference
         deleteCache = findPreference("cache") as Preference
         sendFeedback = findPreference("feedback") as Preference
-
-        numberColums.setOnPreferenceClickListener {
-            true
-        }
 
         clearList.setOnPreferenceClickListener {
             val builder = AlertDialog.Builder(activity)

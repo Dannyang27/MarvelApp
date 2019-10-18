@@ -56,8 +56,7 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager.beginTransaction().add(R.id.container, comicFragment, "1").commit()
     }
 
-    override fun onBackPressed() {
-    }
+    override fun onBackPressed() {}
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu, menu)
