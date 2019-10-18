@@ -39,7 +39,7 @@ class SplashActivity : AppCompatActivity(), CoroutineScope {
 
         if(ConnectionUtils.isOnline(this)){
             launch {
-                RetrofitClient.getComicPreview(this@SplashActivity, 40)
+                RetrofitClient.getComicPreview(this@SplashActivity, 50)
             }
         }else{
             Handler().postDelayed({launchMainActivity(this)}, 2000)

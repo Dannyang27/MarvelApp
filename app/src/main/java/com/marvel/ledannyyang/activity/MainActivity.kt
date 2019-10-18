@@ -24,12 +24,12 @@ class MainActivity : AppCompatActivity() {
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when(item.itemId){
-            R.id.now_playing_item -> {
+            R.id.newreleases -> {
                 toolbar.title = getString(R.string.comic_title)
                 openFragment(comicFragment)
                 return@OnNavigationItemSelectedListener true
             }
-            R.id.upcoming_item -> {
+            R.id.favourites -> {
                 toolbar.title = getString(R.string.saved)
                 openFragment(savedFragment)
                 return@OnNavigationItemSelectedListener true

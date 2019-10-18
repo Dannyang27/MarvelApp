@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -15,16 +16,15 @@ import com.marvel.ledannyyang.model.Comic
 import com.marvel.ledannyyang.retrofit.RetrofitClient
 import com.marvel.ledannyyang.room.MyRoomDatabase
 import com.marvel.ledannyyang.util.ConnectionUtils
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import org.jetbrains.anko.toast
 
 class ComicFragment : Fragment(), CoroutineScope{
     override val coroutineContext = Dispatchers.IO + Job()
     private val comics = mutableListOf<Comic>()
     private var roomDatabase: MyRoomDatabase? = null
+
+    private lateinit var noitemLayout: LinearLayout
 
     companion object{
         var gridLayoutManager: GridLayoutManager? = null
@@ -54,6 +54,7 @@ class ComicFragment : Fragment(), CoroutineScope{
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_comic, container, false)
 
+        noitemLayout = view.findViewById(R.id.comic_layout)
         gridLayoutManager = GridLayoutManager(activity, 1)
         viewAdapter = ComicAdapter(gridLayoutManager, comics)
         decorator = HorizontalDivider(activity?.applicationContext!!)
@@ -68,6 +69,13 @@ class ComicFragment : Fragment(), CoroutineScope{
         launch {
             roomDatabase = MyRoomDatabase.getMyRoomDatabase(activity?.applicationContext!!)
             val comics = roomDatabase?.getAllComicPreview()
+
+            withContext(Dispatchers.Main){
+                if(comics?.isEmpty()!!){
+                    noitemLayout.visibility = View.VISIBLE
+                }
+            }
+
             updateList(comics!!)
         }
 
