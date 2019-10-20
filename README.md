@@ -12,6 +12,8 @@ Things to bear in mind: <br/>
 
 -When long pressing a Comic to add it as favourite, you need to refresh the SavedFragment by SwipeRefresh from the top as you usually do when browsing on the web.
 
+-If not description and credits are displayed, it is because it could not get the data from the server, or they were empty from there.
+
 Here is some screenshots from the app:
 <br/>
 <img src="https://github.com/Dannyang27/MarvelApp/blob/master/readme_images/comiclist.png" width="250" height="450">
