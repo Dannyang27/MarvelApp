@@ -1,6 +1,6 @@
 package com.marvel.ledannyyang.retrofit
 
-import com.marvel.ledannyyang.model.comic.ComicJSON
+import com.marvel.ledannyyang.model.marvelComic.ComicJSON
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query

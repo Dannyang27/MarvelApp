@@ -22,7 +22,7 @@ class ComicFragment : Fragment(){
     private val comics = mutableListOf<Comic>()
     private var roomDatabase: MyRoomDatabase? = null
 
-    private lateinit var noitemLayout: LinearLayout
+    private lateinit var noItemLayout: LinearLayout
 
     companion object{
         var gridLayoutManager: GridLayoutManager? = null
@@ -48,7 +48,7 @@ class ComicFragment : Fragment(){
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_comic, container, false)
 
-        noitemLayout = view.findViewById(R.id.comic_layout)
+        noItemLayout = view.findViewById(R.id.comic_layout)
         gridLayoutManager = GridLayoutManager(activity, 1)
         viewAdapter = ComicAdapter(gridLayoutManager, comics)
         decorator = HorizontalDivider(activity?.applicationContext!!)
@@ -71,7 +71,7 @@ class ComicFragment : Fragment(){
 
             withContext(Dispatchers.Main){
                 if(comics?.isEmpty()!!){
-                    noitemLayout.visibility = View.VISIBLE
+                    noItemLayout.visibility = View.VISIBLE
                 }
             }
 

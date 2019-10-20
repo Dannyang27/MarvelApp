@@ -95,6 +95,8 @@ object RetrofitClient{
                         roomDatabase?.addComicPreview(comic)
                     }
                 }
+
+                MyRoomDatabase.destroyDatabase()
             }
         }catch (e: Exception){
             e.printStackTrace()

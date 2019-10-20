@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.marvel.ledannyyang.R
 import com.marvel.ledannyyang.fragment.MySettingFragment
+import com.marvel.ledannyyang.room.MyRoomDatabase
 
 class SettingActivity : AppCompatActivity() {
 
@@ -30,5 +31,10 @@ class SettingActivity : AppCompatActivity() {
             true
         }
         else -> super.onOptionsItemSelected(item)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        MyRoomDatabase.destroyDatabase()
     }
 }

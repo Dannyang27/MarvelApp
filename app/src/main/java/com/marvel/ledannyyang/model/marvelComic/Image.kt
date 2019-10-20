@@ -1,9 +1,9 @@
-package com.marvel.ledannyyang.model.comic
+package com.marvel.ledannyyang.model.marvelComic
 
 
 import com.google.gson.annotations.SerializedName
 
-data class Thumbnail(
+data class Image(
     @SerializedName("extension")
     val extension: String = "",
     @SerializedName("path")

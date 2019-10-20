@@ -1,4 +1,4 @@
-package com.marvel.ledannyyang.model.comic
+package com.marvel.ledannyyang.model.marvelComic
 
 
 import com.google.gson.annotations.SerializedName

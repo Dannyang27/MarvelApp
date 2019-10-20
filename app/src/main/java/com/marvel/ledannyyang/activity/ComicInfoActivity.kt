@@ -99,4 +99,9 @@ class ComicInfoActivity : AppCompatActivity() {
             creditLayout.visibility = View.VISIBLE
         }
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        MyRoomDatabase.destroyDatabase()
+    }
 }

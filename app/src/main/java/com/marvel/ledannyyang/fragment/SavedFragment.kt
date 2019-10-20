@@ -21,7 +21,7 @@ import kotlinx.coroutines.withContext
 
 class SavedFragment : Fragment(){
     private lateinit var swipeRefresh: SwipeRefreshLayout
-    private lateinit var noitemLayout: LinearLayout
+    private lateinit var noItemLayout: LinearLayout
     private val savedComics = mutableListOf<Comic>()
     private var roomDatabase: MyRoomDatabase? = null
 
@@ -50,12 +50,10 @@ class SavedFragment : Fragment(){
         val view =  inflater.inflate(R.layout.fragment_saved, container, false)
 
         swipeRefresh = view.findViewById(R.id.saved_swiperefresh)
-        noitemLayout = view.findViewById(R.id.favourite_layout)
+        noItemLayout = view.findViewById(R.id.favourite_layout)
         gridLayoutManager = GridLayoutManager(activity, 1)
         viewAdapter = ComicAdapter(gridLayoutManager, savedComics)
         decorator = HorizontalDivider(activity?.applicationContext!!)
-
-        roomDatabase = MyRoomDatabase.getMyRoomDatabase(activity?.applicationContext!!)
 
         comicList = view.findViewById<RecyclerView>(R.id.saved_list).apply {
             setHasFixedSize(true)
@@ -74,14 +72,15 @@ class SavedFragment : Fragment(){
     }
 
     private fun populateSavedComic(){
+        roomDatabase = MyRoomDatabase.getMyRoomDatabase(activity?.applicationContext!!)
         CoroutineScope(Dispatchers.IO).launch {
             val favComics = roomDatabase?.getFavouriteComics()
 
             withContext(Dispatchers.Main){
                 if(favComics?.isNotEmpty()!!){
-                    noitemLayout.visibility = View.GONE
+                    noItemLayout.visibility = View.GONE
                 }else{
-                    noitemLayout.visibility = View.VISIBLE
+                    noItemLayout.visibility = View.VISIBLE
                 }
             }
 
