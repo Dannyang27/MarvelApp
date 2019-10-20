@@ -44,10 +44,6 @@ class SavedFragment : Fragment(){
 
             viewAdapter.notifyItemRangeChanged(0, viewAdapter.itemCount)
         }
-
-        fun updateList(comics: MutableList<Comic>){
-            viewAdapter.updateList(comics)
-        }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -69,34 +65,27 @@ class SavedFragment : Fragment(){
         }
 
         swipeRefresh.setOnRefreshListener {
-            CoroutineScope(Dispatchers.IO).launch {
-                val favComics = roomDatabase?.getFavouriteComics()
-
-                withContext(Dispatchers.Main){
-                    if(favComics?.isNotEmpty()!!){
-                        noitemLayout.visibility = View.GONE
-                    }else{
-                        noitemLayout.visibility = View.VISIBLE
-                    }
-                }
-
-                viewAdapter.updateList(favComics!!)
-            }
+            populateSavedComic()
             swipeRefresh.isRefreshing = false
         }
 
+        populateSavedComic()
+        return view
+    }
+
+    private fun populateSavedComic(){
         CoroutineScope(Dispatchers.IO).launch {
             val favComics = roomDatabase?.getFavouriteComics()
 
-            if(favComics.isNullOrEmpty()){
-                withContext(Dispatchers.Main){
+            withContext(Dispatchers.Main){
+                if(favComics?.isNotEmpty()!!){
+                    noitemLayout.visibility = View.GONE
+                }else{
                     noitemLayout.visibility = View.VISIBLE
                 }
             }
 
             viewAdapter.updateList(favComics!!)
         }
-
-        return view
     }
 }

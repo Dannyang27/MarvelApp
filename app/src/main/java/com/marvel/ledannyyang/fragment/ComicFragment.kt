@@ -43,10 +43,6 @@ class ComicFragment : Fragment(){
 
             viewAdapter.notifyItemRangeChanged(0, viewAdapter.itemCount)
         }
-
-        fun updateList(comics: MutableList<Comic>){
-            viewAdapter.updateList(comics)
-        }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -64,6 +60,11 @@ class ComicFragment : Fragment(){
             adapter = viewAdapter
         }
 
+        populateList()
+        return view
+    }
+
+    private fun populateList(){
         CoroutineScope(Dispatchers.IO).launch {
             roomDatabase = MyRoomDatabase.getMyRoomDatabase(activity?.applicationContext!!)
             val comics = roomDatabase?.getAllComicPreview()
@@ -74,9 +75,7 @@ class ComicFragment : Fragment(){
                 }
             }
 
-            updateList(comics!!)
+            viewAdapter.updateList(comics!!)
         }
-
-        return view
     }
 }
