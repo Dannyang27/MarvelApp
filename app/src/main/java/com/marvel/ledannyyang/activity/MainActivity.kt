@@ -62,8 +62,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onBackPressed() {}
-
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu, menu)
         return true
@@ -89,4 +87,6 @@ class MainActivity : AppCompatActivity() {
 
         else -> super.onOptionsItemSelected(item)
     }
+
+    override fun onBackPressed() {}
 }

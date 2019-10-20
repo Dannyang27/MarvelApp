@@ -20,7 +20,7 @@ class SplashActivity : AppCompatActivity() {
 
         if(ConnectionUtils.isOnline(this)){
             CoroutineScope(Dispatchers.IO).launch {
-                RetrofitClient.getLatestComics(this@SplashActivity)
+                RetrofitClient.getLatestComicsIfModified(this@SplashActivity)
                 launchMainActivity(this@SplashActivity)
             }
         }else{

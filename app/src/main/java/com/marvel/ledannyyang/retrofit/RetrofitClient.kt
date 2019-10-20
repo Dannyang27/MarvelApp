@@ -7,9 +7,6 @@ import com.marvel.ledannyyang.BuildConfig
 import com.marvel.ledannyyang.getFirstDateFromYear
 import com.marvel.ledannyyang.model.Comic
 import com.marvel.ledannyyang.room.MyRoomDatabase
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import java.text.SimpleDateFormat
@@ -17,7 +14,6 @@ import java.util.*
 
 object RetrofitClient{
 
-    const val TAG = "COMIC"
     private const val apikey = BuildConfig.MARVEL_PUBLIC_API_KEY
     private const val hash = "60953bc79ff43f53ddc1af21467b6cea"
     private const val baseUrl = "https://gateway.marvel.com"
@@ -45,7 +41,7 @@ object RetrofitClient{
             .create(ShortBoxedService::class.java)
     }
 
-    suspend fun getLatestComics(context: Context){
+    suspend fun getLatestComicsIfModified(context: Context){
         val retrofitService = createMarvelService()
         val shortBoxedService = createShortBoxedService()
         val dateFormat = SimpleDateFormat("yyyy-MM-dd")
@@ -72,35 +68,32 @@ object RetrofitClient{
                     val price = it.prices?.get(0)?.price
                     val date = it.dates?.filter { it.type == "onsaleDate" }?.get(0)?.date
 
-                    val job = CoroutineScope(Dispatchers.IO).launch {
-                        val shortBoxedResponse = shortBoxedService.getComicDescription(it.diamondCode)
 
-                        if (shortBoxedResponse.isSuccessful) {
-                            val comicDescription = shortBoxedResponse.body()?.copy()
-                            val comicItem = comicDescription?.comics?.get(0)
-                            val description = comicItem?.description
-                            val creators = comicItem?.creators
+                    val shortBoxedResponse = shortBoxedService.getComicDescription(it.diamondCode)
 
-                            val comic = Comic(
-                                it.id,
-                                it.title,
-                                it.upc,
-                                price,
-                                it.thumbnail?.path,
-                                it.thumbnail?.extension,
-                                it.diamondCode,
-                                date,
-                                it.pageCount,
-                                description,
-                                creators,
-                                false
-                            )
+                    if (shortBoxedResponse.isSuccessful) {
+                        val comicDescription = shortBoxedResponse.body()?.copy()
+                        val comicItem = comicDescription?.comics?.get(0)
+                        val description = comicItem?.description
+                        val creators = comicItem?.creators
 
-                            roomDatabase?.addComicPreview(comic)
-                        }
+                        val comic = Comic(
+                            it.id,
+                            it.title,
+                            it.upc,
+                            price,
+                            it.thumbnail?.path,
+                            it.thumbnail?.extension,
+                            it.diamondCode,
+                            date,
+                            it.pageCount,
+                            description,
+                            creators,
+                            false
+                        )
+
+                        roomDatabase?.addComicPreview(comic)
                     }
-
-                    job.join()
                 }
             }
         }catch (e: Exception){

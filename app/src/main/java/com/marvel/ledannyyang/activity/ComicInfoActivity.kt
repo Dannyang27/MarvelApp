@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.marvel.ledannyyang.R
 import com.marvel.ledannyyang.getDate
+import com.marvel.ledannyyang.getImageUrl
 import com.marvel.ledannyyang.intoImage
 import com.marvel.ledannyyang.model.Comic
 import com.marvel.ledannyyang.room.MyRoomDatabase
@@ -83,6 +84,9 @@ class ComicInfoActivity : AppCompatActivity() {
         upcCode.text = comic?.upcCode
         price.text = "$" + comic?.price.toString()
 
+        val url = comic?.imagePath?.getImageUrl(comic.imageExt.toString())
+        url?.intoImage(poster)
+
         comic?.description?.let{
             description.text = comic.description
             descriptionLayout.visibility = View.VISIBLE
@@ -91,13 +95,6 @@ class ComicInfoActivity : AppCompatActivity() {
         comic?.credits?.let{
             credits.text = comic.credits
             creditLayout.visibility = View.VISIBLE
-        }
-
-        poster.let {
-            val url = "${comic?.imagePath}/portrait_uncanny.${comic?.imageExt}"
-                .replace("http","https")
-
-            url.intoImage(it)
         }
     }
 }

@@ -13,10 +13,12 @@ import com.marvel.ledannyyang.divider.HorizontalDivider
 import com.marvel.ledannyyang.listadapter.ComicAdapter
 import com.marvel.ledannyyang.model.Comic
 import com.marvel.ledannyyang.room.MyRoomDatabase
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-class ComicFragment : Fragment(), CoroutineScope{
-    override val coroutineContext = Dispatchers.IO + Job()
+class ComicFragment : Fragment(){
     private val comics = mutableListOf<Comic>()
     private var roomDatabase: MyRoomDatabase? = null
 
@@ -62,7 +64,7 @@ class ComicFragment : Fragment(), CoroutineScope{
             adapter = viewAdapter
         }
 
-        launch {
+        CoroutineScope(Dispatchers.IO).launch {
             roomDatabase = MyRoomDatabase.getMyRoomDatabase(activity?.applicationContext!!)
             val comics = roomDatabase?.getAllComicPreview()
 

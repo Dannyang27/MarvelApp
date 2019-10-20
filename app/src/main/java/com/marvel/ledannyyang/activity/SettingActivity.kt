@@ -21,7 +21,6 @@ class SettingActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
-
         supportFragmentManager.beginTransaction().replace(R.id.setting_container, MySettingFragment()).commit()
     }
 

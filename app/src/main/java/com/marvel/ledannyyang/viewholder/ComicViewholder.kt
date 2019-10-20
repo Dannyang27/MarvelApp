@@ -10,6 +10,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.marvel.ledannyyang.R
 import com.marvel.ledannyyang.activity.ComicInfoActivity
+import com.marvel.ledannyyang.getImageUrl
 import com.marvel.ledannyyang.interfaces.IComicViewholder
 import com.marvel.ledannyyang.intoImage
 import com.marvel.ledannyyang.model.Comic
@@ -44,10 +45,8 @@ class ComicViewholder(view: View): RecyclerView.ViewHolder(view), IComicViewhold
         this.upcCode?.text = comic.upcCode
         this.price?.text = "\$${comic.price}"
         this.poster?.let {
-            val url = "${comic.imagePath}/portrait_uncanny.${comic.imageExt}"
-                .replace("http","https")
-
-            url.intoImage(it)
+            val url = comic.imagePath?.getImageUrl(comic.imageExt.toString())
+            url?.intoImage(it)
         }
     }
 

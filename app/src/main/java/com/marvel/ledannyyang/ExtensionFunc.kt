@@ -10,3 +10,7 @@ fun String.intoImage(imageView: ImageView){
         .load(this)
         .into(imageView)
 }
+
+fun String.getImageUrl(extension: String): String{
+    return "${this}/portrait_uncanny.${extension}".replace("http","https")
+}

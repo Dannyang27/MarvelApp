@@ -14,10 +14,12 @@ import com.marvel.ledannyyang.divider.HorizontalDivider
 import com.marvel.ledannyyang.listadapter.ComicAdapter
 import com.marvel.ledannyyang.model.Comic
 import com.marvel.ledannyyang.room.MyRoomDatabase
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-class SavedFragment : Fragment(), CoroutineScope{
-    override val coroutineContext = Dispatchers.IO + Job()
+class SavedFragment : Fragment(){
     private lateinit var swipeRefresh: SwipeRefreshLayout
     private lateinit var noitemLayout: LinearLayout
     private val savedComics = mutableListOf<Comic>()
@@ -57,6 +59,8 @@ class SavedFragment : Fragment(), CoroutineScope{
         viewAdapter = ComicAdapter(gridLayoutManager, savedComics)
         decorator = HorizontalDivider(activity?.applicationContext!!)
 
+        roomDatabase = MyRoomDatabase.getMyRoomDatabase(activity?.applicationContext!!)
+
         comicList = view.findViewById<RecyclerView>(R.id.saved_list).apply {
             setHasFixedSize(true)
             layoutManager = gridLayoutManager
@@ -65,7 +69,7 @@ class SavedFragment : Fragment(), CoroutineScope{
         }
 
         swipeRefresh.setOnRefreshListener {
-            launch {
+            CoroutineScope(Dispatchers.IO).launch {
                 val favComics = roomDatabase?.getFavouriteComics()
 
                 withContext(Dispatchers.Main){
@@ -81,8 +85,7 @@ class SavedFragment : Fragment(), CoroutineScope{
             swipeRefresh.isRefreshing = false
         }
 
-        launch {
-            roomDatabase =  MyRoomDatabase.getMyRoomDatabase(activity?.applicationContext!!)
+        CoroutineScope(Dispatchers.IO).launch {
             val favComics = roomDatabase?.getFavouriteComics()
 
             if(favComics.isNullOrEmpty()){
