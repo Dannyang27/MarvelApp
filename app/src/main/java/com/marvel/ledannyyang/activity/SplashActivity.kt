@@ -37,6 +37,7 @@ class SplashActivity : AppCompatActivity(), CoroutineScope {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 
+        //TODO make retrofit synchronous and remove companion object
         if(ConnectionUtils.isOnline(this)){
             launch {
                 RetrofitClient.getComicPreview(this@SplashActivity, 50)
