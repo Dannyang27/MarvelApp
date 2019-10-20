@@ -24,8 +24,8 @@ class MySettingFragment : PreferenceFragmentCompat(){
 
         clearList.setOnPreferenceClickListener {
             val method = DialogInterface.OnClickListener { _, _ ->
-                clearList.context.toast(getString(R.string.list_clear))
                 MyRoomDatabase.getMyRoomDatabase(clearList.context)?.clearFavourites()
+                clearList.context.toast(getString(R.string.list_clear))
                 true
             }
 
