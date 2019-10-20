@@ -23,38 +23,24 @@ class MySettingFragment : PreferenceFragmentCompat(){
         sendFeedback = findPreference("feedback") as Preference
 
         clearList.setOnPreferenceClickListener {
-            val builder = AlertDialog.Builder(activity)
-            builder.setTitle(getString(R.string.delete_watchlist))
-            builder.setMessage(getString(R.string.delete_sure))
-
-            builder.setPositiveButton("Continue", DialogInterface.OnClickListener { dialog, which ->
+            val method = DialogInterface.OnClickListener { _, _ ->
                 clearList.context.toast(getString(R.string.list_clear))
                 MyRoomDatabase.getMyRoomDatabase(clearList.context)?.clearFavourites()
                 true
-            })
+            }
 
-            builder.setNegativeButton("Cancel", null)
-            val dialog = builder.create()
-            dialog.show()
-
+            createDialog(getString(R.string.delete_watchlist), getString(R.string.delete_sure), method)
             true
         }
 
         deleteCache.setOnPreferenceClickListener {
-            val builder = AlertDialog.Builder(activity)
-            builder.setTitle(getString(R.string.delete_cache))
-            builder.setMessage(getString(R.string.delete_sure_cache))
-
-            builder.setPositiveButton("Continue", DialogInterface.OnClickListener { dialog, which ->
+            val method = DialogInterface.OnClickListener { _, _ ->
                 deleteCache.context.cacheDir.deleteRecursively()
                 deleteCache.context.toast(getString(R.string.deleteCache))
                 true
-            })
+            }
 
-            builder.setNegativeButton("Cancel", null)
-            val dialog = builder.create()
-            dialog.show()
-
+            createDialog(getString(R.string.delete_cache), getString(R.string.delete_sure_cache), method)
             true
         }
 
@@ -64,5 +50,15 @@ class MySettingFragment : PreferenceFragmentCompat(){
             startActivity(Intent.createChooser(intent, getString(R.string.send_email)))
             true
         }
+    }
+
+    private fun createDialog(title: String, message: String, method: DialogInterface.OnClickListener){
+        val builder = AlertDialog.Builder(activity)
+        builder.setTitle(title)
+        builder.setMessage(message)
+        builder.setPositiveButton("Continue", method)
+        builder.setNegativeButton("Cancel", null)
+        val dialog = builder.create()
+        dialog.show()
     }
 }
