@@ -11,9 +11,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.marvel.ledannyyang.R
 import com.marvel.ledannyyang.activity.ComicInfoActivity
 import com.marvel.ledannyyang.interfaces.IComicViewholder
+import com.marvel.ledannyyang.intoImage
 import com.marvel.ledannyyang.model.Comic
 import com.marvel.ledannyyang.room.MyRoomDatabase
-import com.squareup.picasso.Picasso
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -43,9 +43,8 @@ class ComicPosterViewholder(view: View): RecyclerView.ViewHolder(view), IComicVi
         this.poster?.let{
             val url = "${comic.imagePath}/portrait_uncanny.${comic.imageExt}"
                 .replace("http","https")
-            Picasso.get()
-                .load(url)
-                .into(it)
+
+            url.intoImage(it)
         }
     }
 

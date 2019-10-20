@@ -1,103 +1,128 @@
 package com.marvel.ledannyyang.retrofit
 
 import android.content.Context
-import android.util.Log
+import android.content.SharedPreferences
+import android.preference.PreferenceManager
 import com.marvel.ledannyyang.BuildConfig
-import com.marvel.ledannyyang.activity.ComicInfoActivity
-import com.marvel.ledannyyang.activity.SplashActivity
+import com.marvel.ledannyyang.getFirstDateFromYear
 import com.marvel.ledannyyang.model.Comic
-import com.marvel.ledannyyang.model.ComicDescription
-import com.marvel.ledannyyang.model.comic.ComicJSON
 import com.marvel.ledannyyang.room.MyRoomDatabase
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.moshi.MoshiConverterFactory
 import java.text.SimpleDateFormat
 import java.util.*
 
 object RetrofitClient{
 
-    val TAG = "COMIC"
-    private val apikey = BuildConfig.MARVEL_PUBLIC_API_KEY
-    private val hash = "60953bc79ff43f53ddc1af21467b6cea"
-    private val baseUrl = "https://gateway.marvel.com"
-    private val shortBoxedUrl = "https://api.shortboxed.com"
-
-    private val retrofit = Retrofit.Builder()
-        .baseUrl(baseUrl)
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
-
-    private val retrofitDesc = Retrofit.Builder()
-        .baseUrl(shortBoxedUrl)
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
-
-    private val service = retrofit.create(GithubService::class.java)
-    private val serviceDescription = retrofitDesc.create(ShortBoxedService::class.java)
+    const val TAG = "COMIC"
+    private const val apikey = BuildConfig.MARVEL_PUBLIC_API_KEY
+    private const val hash = "60953bc79ff43f53ddc1af21467b6cea"
+    private const val baseUrl = "https://gateway.marvel.com"
+    private const val shortBoxedUrl = "https://api.shortboxed.com"
+    private const val format = "comic"
+    private const val orderBy = "-onsaleDate"
+    private const val month = "thisMonth"
+    private lateinit var preferenceManager: SharedPreferences
 
     private var roomDatabase: MyRoomDatabase? = null
 
-    fun getComicPreview(context: Context, limit: Int){
-        val dateFormat = SimpleDateFormat("yyyy-MM-dd")
-        val year = Calendar.getInstance().get(Calendar.YEAR)
-        val range = "$year-01-01,${dateFormat.format(Date())}"
+    private fun createMarvelService(): MarvelService{
+        return Retrofit.Builder()
+            .baseUrl(baseUrl)
+            .addConverterFactory(MoshiConverterFactory.create())
+            .build()
+            .create(MarvelService::class.java)
+    }
 
-        val call = service.getLatestComicPreview(apikey, "1", hash, "-onsaleDate",
-            "comic", range, "thisMonth", limit)
-        call.enqueue(object: Callback<ComicJSON> {
-            override fun onResponse(call: Call<ComicJSON>, response: Response<ComicJSON>) {
-                val comic = response.body()?.copy()
-                val list = comic?.data?.results
+    private fun createShortBoxedService(): ShortBoxedService{
+        return Retrofit.Builder()
+            .baseUrl(shortBoxedUrl)
+            .addConverterFactory(MoshiConverterFactory.create())
+            .build()
+            .create(ShortBoxedService::class.java)
+    }
+
+    suspend fun getLatestComics(context: Context){
+        val retrofitService = createMarvelService()
+        val shortBoxedService = createShortBoxedService()
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd")
+        val today = dateFormat.format(Date())
+        val year = Calendar.getInstance().get(Calendar.YEAR)
+        val range = "${year.getFirstDateFromYear()},$today"
+
+        if(isAlreadyUpdate(context, today)){
+            return
+        }
+
+        val response = retrofitService.getLatestComicPreview(apikey, "1", hash, orderBy,
+            format, range, month, 20)
+        try{
+            if(response.isSuccessful){
+                roomDatabase = MyRoomDatabase.getMyRoomDatabase(context)
+
+                val list = response.body()?.copy()?.data?.results
+                val filteredList = list
                     ?.filterNot { it.thumbnail?.path!!.contains("image_not_available") }
                     ?.sortedBy { it.title }
 
-                if(roomDatabase == null){
-                    roomDatabase = MyRoomDatabase.getMyRoomDatabase(context)
-                }
-
-                list?.forEach {
+                filteredList?.forEach {
                     val price = it.prices?.get(0)?.price
                     val date = it.dates?.filter { it.type == "onsaleDate" }?.get(0)?.date
 
-                    val comic = Comic(it.id, it.title, it.upc, price, it.thumbnail?.path, it.thumbnail?.extension,
-                        it.diamondCode, date, it.pageCount, "", "", false)
+                    val job = CoroutineScope(Dispatchers.IO).launch {
+                        val shortBoxedResponse = shortBoxedService.getComicDescription(it.diamondCode)
 
-                    roomDatabase?.addComicPreview(comic)
-                    getComicDescription(comic)
+                        if (shortBoxedResponse.isSuccessful) {
+                            val comicDescription = shortBoxedResponse.body()?.copy()
+                            val comicItem = comicDescription?.comics?.get(0)
+                            val description = comicItem?.description
+                            val creators = comicItem?.creators
+
+                            val comic = Comic(
+                                it.id,
+                                it.title,
+                                it.upc,
+                                price,
+                                it.thumbnail?.path,
+                                it.thumbnail?.extension,
+                                it.diamondCode,
+                                date,
+                                it.pageCount,
+                                description,
+                                creators,
+                                false
+                            )
+
+                            roomDatabase?.addComicPreview(comic)
+                        }
+                    }
+
+                    job.join()
                 }
-
-                SplashActivity.launchMainActivity(context)
             }
-
-            override fun onFailure(call: Call<ComicJSON>, t: Throwable) {
-                Log.d(TAG, "Error while getting latest comic")
-            }
-        })
+        }catch (e: Exception){
+            e.printStackTrace()
+        }
     }
 
-    fun getComicDescription(comic: Comic){
-        val call = serviceDescription.getComicDescription(comic.diamondCode.toString())
+    private fun isAlreadyUpdate(context: Context, today: String): Boolean{
+        preferenceManager = PreferenceManager.getDefaultSharedPreferences(context)
+        val lastUpdate = preferenceManager.getString("lastUpdate", "")
+        var isUpdated: Boolean
 
-        call.enqueue(object: Callback<ComicDescription>{
+        if(lastUpdate == today){
+            isUpdated =  true
+        }else{
+            val editor = preferenceManager.edit()
+            editor.putString("lastUpdate", today)
+            editor.apply()
 
-            override fun onResponse(call: Call<ComicDescription>, response: Response<ComicDescription>) {
-                val comicDescription = response.body()?.copy()
-                val comicItem = comicDescription?.comics?.get(0)
-                val description = comicItem?.description
-                val creators = comicItem?.creators
+            isUpdated = false
+        }
 
-                comic.description = description
-                comic.credits = creators
-
-                roomDatabase?.updateComicPreview(comic)
-            }
-
-            override fun onFailure(call: Call<ComicDescription>, t: Throwable) {
-                Log.d(TAG, "Error while getting latest comic")
-            }
-        })
+        return isUpdated
     }
 }

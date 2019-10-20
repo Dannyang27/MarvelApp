@@ -10,15 +10,15 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.marvel.ledannyyang.R
 import com.marvel.ledannyyang.getDate
+import com.marvel.ledannyyang.intoImage
 import com.marvel.ledannyyang.model.Comic
 import com.marvel.ledannyyang.room.MyRoomDatabase
-import com.squareup.picasso.Picasso
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-class ComicInfoActivity : AppCompatActivity(), CoroutineScope {
-
-    private val job = Job()
-    override val coroutineContext = Dispatchers.IO + job
+class ComicInfoActivity : AppCompatActivity() {
 
     private lateinit var toolbar: Toolbar
     private lateinit var descriptionLayout: LinearLayout
@@ -58,7 +58,7 @@ class ComicInfoActivity : AppCompatActivity(), CoroutineScope {
 
         val comicDiamondCode = intent.getStringExtra("diamondCode")
 
-        launch {
+        CoroutineScope(Dispatchers.IO).launch {
             val comic = MyRoomDatabase.getMyRoomDatabase(this@ComicInfoActivity)?.getComicByDiamondCode(comicDiamondCode)
             withContext(Dispatchers.Main){
                 setInfo(comic)
@@ -97,9 +97,7 @@ class ComicInfoActivity : AppCompatActivity(), CoroutineScope {
             val url = "${comic?.imagePath}/portrait_uncanny.${comic?.imageExt}"
                 .replace("http","https")
 
-            Picasso.get()
-                .load(url)
-                .into(it)
+            url.intoImage(it)
         }
     }
 }

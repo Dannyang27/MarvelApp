@@ -14,10 +14,7 @@ import com.marvel.ledannyyang.divider.HorizontalDivider
 import com.marvel.ledannyyang.listadapter.ComicAdapter
 import com.marvel.ledannyyang.model.Comic
 import com.marvel.ledannyyang.room.MyRoomDatabase
-import com.marvel.ledannyyang.util.ConnectionUtils
 import kotlinx.coroutines.*
-import org.jetbrains.anko.toast
-import kotlin.coroutines.CoroutineContext
 
 class SavedFragment : Fragment(), CoroutineScope{
     override val coroutineContext = Dispatchers.IO + Job()

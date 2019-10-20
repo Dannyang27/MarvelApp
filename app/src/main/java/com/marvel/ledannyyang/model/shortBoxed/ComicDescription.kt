@@ -1,4 +1,4 @@
-package com.marvel.ledannyyang.model
+package com.marvel.ledannyyang.model.shortBoxed
 
 
 import com.google.gson.annotations.SerializedName

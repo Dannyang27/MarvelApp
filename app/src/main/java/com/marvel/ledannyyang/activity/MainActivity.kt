@@ -17,8 +17,8 @@ import org.jetbrains.anko.toast
 class MainActivity : AppCompatActivity() {
 
     private lateinit var toolbar: Toolbar
-    val comicFragment = ComicFragment.newInstance()
-    val savedFragment = SavedFragment.newInstance()
+    private val comicFragment = ComicFragment.newInstance()
+    private val savedFragment = SavedFragment.newInstance()
 
     var activeFragment: Fragment = comicFragment
 
@@ -49,8 +49,8 @@ class MainActivity : AppCompatActivity() {
 
         toolbar = findViewById(R.id.main_toolbar)
         toolbar.title = getString(R.string.comic_title)
-
         setSupportActionBar(toolbar)
+
         val navigationBar = findViewById<BottomNavigationView>(R.id.navigationBar)
         navigationBar.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
 
