@@ -58,13 +58,7 @@ class ComicInfoActivity : AppCompatActivity() {
         credits = findViewById(R.id.comic_info_credits)
 
         val comicDiamondCode = intent.getStringExtra("diamondCode")
-
-        CoroutineScope(Dispatchers.IO).launch {
-            val comic = MyRoomDatabase.getMyRoomDatabase(this@ComicInfoActivity)?.getComicByDiamondCode(comicDiamondCode)
-            withContext(Dispatchers.Main){
-                setInfo(comic)
-            }
-        }
+        populateInfo(comicDiamondCode)
     }
 
     override fun onOptionsItemSelected(item: MenuItem?) = when(item?.itemId){
@@ -75,6 +69,14 @@ class ComicInfoActivity : AppCompatActivity() {
         else -> super.onOptionsItemSelected(item)
     }
 
+    private fun populateInfo(diamondCode: String){
+        CoroutineScope(Dispatchers.IO).launch {
+            val comic = MyRoomDatabase.getMyRoomDatabase(this@ComicInfoActivity)?.getComicByDiamondCode(diamondCode)
+            withContext(Dispatchers.Main){
+                setInfo(comic)
+            }
+        }
+    }
 
     private fun setInfo(comic: Comic?){
         diamondCode.text = comic?.diamondCode
