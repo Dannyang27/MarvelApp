@@ -8,16 +8,12 @@ import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.marvel.ledannyyang.R
 import com.marvel.ledannyyang.divider.HorizontalDivider
 import com.marvel.ledannyyang.listadapter.ComicAdapter
 import com.marvel.ledannyyang.model.Comic
-import com.marvel.ledannyyang.retrofit.RetrofitClient
 import com.marvel.ledannyyang.room.MyRoomDatabase
-import com.marvel.ledannyyang.util.ConnectionUtils
 import kotlinx.coroutines.*
-import org.jetbrains.anko.toast
 
 class ComicFragment : Fragment(), CoroutineScope{
     override val coroutineContext = Dispatchers.IO + Job()
